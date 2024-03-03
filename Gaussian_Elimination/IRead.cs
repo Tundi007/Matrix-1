@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 public interface IRead
 {
 
@@ -10,9 +12,7 @@ public interface IRead
 
         string? userInput_String = Console.ReadLine();
 
-        userInput_String ??= "";
-
-        return userInput_String;
+        return userInput_String??="";
 
     }
 
@@ -22,6 +22,8 @@ public interface IRead
         ConsoleKeyInfo key_ConsoleKeyInfo;
 
         string input_String = "";
+
+        System.Console.WriteLine("Press \"Ctrl\" + \"Enter\" To Finish Writing\nPress");
 
         while(true)
         {
@@ -55,20 +57,23 @@ public interface IRead
 
                 }
 
-                case ConsoleKey.Escape:
-                    return (4,input_String);
+                case ConsoleKey.Escape: return (4,input_String);
 
-                default:                            
+                default:
+                {                          
+                
                     input_String += key_ConsoleKeyInfo.KeyChar.ToString();
+                
                     Console.Write(key_ConsoleKeyInfo.KeyChar);
-                    break;
+                
+                }break;
 
             }
 
         }
     }
 
-    public static (int,int,ConsoleKey, FileInfo) ReadKeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString)
+    public static (int,int,ConsoleKey,FileInfo) ReadKeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString)
     {
         
         ConsoleKeyInfo userKey_ConsoleKeyInfo;
@@ -85,39 +90,27 @@ public interface IRead
             switch (userKey_ConsoleKeyInfo.Key)
             {
 
-                case ConsoleKey.NumPad0: 
-                
-                    return (0,0,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad0:return (0,0,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad1:
-                    return (1,1,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad1:return (1,1,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad2:
-                    return (2,2,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad2:return (2,2,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad3:
-                    return (3,3,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad3:return (3,3,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad4:
-                    return (4,4,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad4:return (4,4,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad5:
-                    return (5,5,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad5:return (5,5,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad6:
-                    return (6,6,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad6:return (6,6,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad7:
-                    return (7,7,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad7:return (7,7,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad8:
-                    return (8,8,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad8:return (8,8,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.NumPad9:
-                    return (9,9,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.NumPad9:return (9,9,userKey_ConsoleKeyInfo.Key,new(""));
 
-                case ConsoleKey.Enter:
-                    return (menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key,new(""));
+                case ConsoleKey.Enter:return (menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key,new(""));
 
                 default:
                     System.Console.WriteLine("Use The Arrow Keys To Navigate Or Press \"Enter\" / A Numpad Key To Select");

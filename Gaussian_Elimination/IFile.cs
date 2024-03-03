@@ -1,29 +1,47 @@
-
-public interface IDataInput : IRead
+public interface IFile
 {
 
     public static void FileInput_Function(string menuItems_String, string[][]menuItems_ArrayString)
     {
 
-        (int menuOptions_Int, _, _, FileInfo? userFile_FileInfo) = IRead.ReadKeyMenu_Function("How Do You Want To Proceed? (use arrow keys or select on numpad)", [["Enter Code Manually","Enter Address","Return"]]);
+        (int menuOptions_Int, _, _, FileInfo userFile_FileInfo) = IRead.ReadKeyMenu_Function("How Do You Want To Proceed? (use arrow keys or select on numpad)", [["Enter Code Manually","Enter Address","Return"]]);
 
         switch (menuOptions_Int)
         {
             case 0:
+            {
+            
                 WriteToFile_Function(new("local.txt"));
-                break;
+            
+            }break;
+            
             case 1:
-                break;
+            {
+
+                System.Console.WriteLine("Please Enter The Full Address To Your Text File:"); // could get directory and show all files!
+
+                (_,string userAddress_String)=IRead.ReadKeyToReadLine_Function();
+
+                userFile_FileInfo = new(userAddress_String??= "");
+
+                if(File.Exists("local.txt"))File.Delete("local.txt");
+
+                userFile_FileInfo.CopyTo("local.txt");
+
+            }break;
+
             default:
-                break;
+            {
+
+                System.Console.WriteLine("something went wrong");
+
+            }break;
         }        
         
     }
 
     public static void WriteToFile_Function(FileInfo appData_FileInfo)
     {
-
-        System.Console.WriteLine("Press \"Ctrl\" + \"Enter\" To Finish Writing\nPress");
 
         if(appData_FileInfo.Exists)appData_FileInfo.Delete();
         
@@ -118,9 +136,4 @@ public interface IDataInput : IRead
 
     }
     
-}
-
-public class UserData
-{
-
 }
