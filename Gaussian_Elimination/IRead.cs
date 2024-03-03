@@ -84,7 +84,7 @@ public interface IRead
 
         return(-1,-1,ConsoleKey.None);
 
-    }
+    } // was fixing navigation***
 
     public static (int,int) Navigation_Function(ConsoleKey input_ConsoleKey, string[][] menuItems_ArrayString , int menuPointerRow_Int , int menuPointerColumn_Int)
     {
