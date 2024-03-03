@@ -21,10 +21,55 @@ public interface IRead
 
         (int menuPointerRow_Int, int menuPointerColumn_Int) = (1,1);
 
-              
+        Navigation_Function(ConsoleKey.None, menuItems_ArrayString , menuPointerRow_Int , menuPointerColumn_Int );
 
-        while((userKey_ConsoleKeyInfo = Console.ReadKey()).Key == (ConsoleKey.DownArrow | ConsoleKey.UpArrow | ConsoleKey.RightArrow | ConsoleKey.LeftArrow))
+        ShowMenu_Function(menuItems_ArrayString, menuPointerRow_Int, menuPointerColumn_Int);
+
+        while((userKey_ConsoleKeyInfo = Console.ReadKey()).Key != ConsoleKey.Escape)
         {
+
+            switch (userKey_ConsoleKeyInfo.Key)
+            {
+
+                case ConsoleKey.NumPad0: 
+                
+                    return (0,0,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad1:
+                    return (1,1,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad2:
+                    return (2,2,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad3:
+                    return (3,3,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad4:
+                    return (4,4,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad5:
+                    return (5,5,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad6:
+                    return (6,6,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad7:
+                    return (7,7,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad8:
+                    return (8,8,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.NumPad9:
+                    return (9,9,userKey_ConsoleKeyInfo.Key);
+
+                case ConsoleKey.Enter:
+                    return (menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key);
+
+                default:
+                    System.Console.WriteLine("Use The Arrow Keys To Navigate Or Press \"Enter\" / A Numpad Key To Select");
+                    break;
+
+            }
 
             Console.Clear();
 
@@ -34,14 +79,7 @@ public interface IRead
 
         }
 
-        if(userKey_ConsoleKeyInfo.Key == (ConsoleKey.NumPad0 | ConsoleKey.NumPad1 | ConsoleKey.NumPad2 | ConsoleKey.NumPad3 | ConsoleKey.NumPad4 | ConsoleKey.NumPad5 | ConsoleKey.NumPad6 | ConsoleKey.NumPad7 | ConsoleKey.NumPad8 | ConsoleKey.NumPad9))
-        {
-
-            return (menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key);
-
-        }
-
-        return (menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key);
+        return(-1,-1,ConsoleKey.None);
 
     }
 

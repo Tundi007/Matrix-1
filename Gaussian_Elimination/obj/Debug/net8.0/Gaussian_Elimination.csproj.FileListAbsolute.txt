@@ -1,0 +1,15 @@
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\bin\Debug\net8.0\Gaussian_Elimination.exe
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\bin\Debug\net8.0\Gaussian_Elimination.deps.json
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\bin\Debug\net8.0\Gaussian_Elimination.runtimeconfig.json
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\bin\Debug\net8.0\Gaussian_Elimination.dll
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\bin\Debug\net8.0\Gaussian_Elimination.pdb
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.GeneratedMSBuildEditorConfig.editorconfig
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.AssemblyInfoInputs.cache
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.AssemblyInfo.cs
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.csproj.CoreCompileInputs.cache
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.sourcelink.json
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.dll
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\refint\Gaussian_Elimination.dll
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.pdb
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\Gaussian_Elimination.genruntimeconfig.cache
+C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\obj\Debug\net8.0\ref\Gaussian_Elimination.dll
