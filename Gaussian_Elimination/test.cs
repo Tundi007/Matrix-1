@@ -1,2 +1,2 @@
-ConsoleKeyInfo a = Console.ReadKey();
+ConsoleKeyInfo a = Console.ReadKey(true);
 Console.WriteLine(a.KeyChar.ToString());

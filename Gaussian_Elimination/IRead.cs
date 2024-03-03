@@ -10,11 +10,65 @@ public interface IRead
 
         string? userInput_String = Console.ReadLine();
 
+        userInput_String ??= "";
+
         return userInput_String;
 
     }
 
-    public static (int,int,ConsoleKey) ReadKeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString)
+    public static (int,string) ReadKeyToReadLine_Function()
+    {
+
+        ConsoleKeyInfo key_ConsoleKeyInfo;
+
+        string input_String = "";
+
+        while(true)
+        {
+
+            if((key_ConsoleKeyInfo = Console.ReadKey(true)).Modifiers == ConsoleModifiers.Control & key_ConsoleKeyInfo.Key == ConsoleKey.Enter)
+            {
+
+                return (2,input_String);
+
+            }
+
+            switch (key_ConsoleKeyInfo.Key)
+            {
+
+                case ConsoleKey.Enter: 
+                {
+
+                    System.Console.WriteLine();
+
+                    if(input_String != "")
+                    {
+
+                        return (1,input_String);
+
+                    }else
+                    {
+
+                        return (3,input_String);
+
+                    }
+
+                }
+
+                case ConsoleKey.Escape:
+                    return (4,input_String);
+
+                default:                            
+                    input_String += key_ConsoleKeyInfo.KeyChar.ToString();
+                    Console.Write(key_ConsoleKeyInfo.KeyChar);
+                    break;
+
+            }
+
+        }
+    }
+
+    public static (int,int,ConsoleKey, FileInfo) ReadKeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString)
     {
         
         ConsoleKeyInfo userKey_ConsoleKeyInfo;
@@ -33,37 +87,37 @@ public interface IRead
 
                 case ConsoleKey.NumPad0: 
                 
-                    return (0,0,userKey_ConsoleKeyInfo.Key);
+                    return (0,0,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad1:
-                    return (1,1,userKey_ConsoleKeyInfo.Key);
+                    return (1,1,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad2:
-                    return (2,2,userKey_ConsoleKeyInfo.Key);
+                    return (2,2,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad3:
-                    return (3,3,userKey_ConsoleKeyInfo.Key);
+                    return (3,3,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad4:
-                    return (4,4,userKey_ConsoleKeyInfo.Key);
+                    return (4,4,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad5:
-                    return (5,5,userKey_ConsoleKeyInfo.Key);
+                    return (5,5,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad6:
-                    return (6,6,userKey_ConsoleKeyInfo.Key);
+                    return (6,6,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad7:
-                    return (7,7,userKey_ConsoleKeyInfo.Key);
+                    return (7,7,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad8:
-                    return (8,8,userKey_ConsoleKeyInfo.Key);
+                    return (8,8,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.NumPad9:
-                    return (9,9,userKey_ConsoleKeyInfo.Key);
+                    return (9,9,userKey_ConsoleKeyInfo.Key,new(""));
 
                 case ConsoleKey.Enter:
-                    return (menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key);
+                    return (menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key,new(""));
 
                 default:
                     System.Console.WriteLine("Use The Arrow Keys To Navigate Or Press \"Enter\" / A Numpad Key To Select");
@@ -79,7 +133,7 @@ public interface IRead
 
         }
 
-        return(-1,-1,ConsoleKey.None);
+        return(-1,-1,ConsoleKey.None,new(""));
 
     }
 
