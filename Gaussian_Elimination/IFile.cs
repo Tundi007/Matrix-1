@@ -1,13 +1,18 @@
-public interface IFile
+using System.Text.RegularExpressions;
+
+public partial interface IFile
 {
 
-    public static void FileInput_Function(string menuItems_String, string[][]menuItems_ArrayString)
+    public static void File_Function(string menuItems_String, string[][]menuItems_ArrayString)
     {
 
-        (int menuOptions_Int, _, _, FileInfo userFile_FileInfo) = IRead.ReadKeyMenu_Function("How Do You Want To Proceed? (use arrow keys or select on numpad)", [["Enter Code Manually","Enter Address","Return"]]);
+        FileInfo userFile_FileInfo = new("");
 
-        switch (menuOptions_Int)
+        (int row_Int, int column_Int, ConsoleKey userKey_ConsoleKey) = IRead.KeyMenu_Function("How Do You Want To Proceed? (use arrow keys or select on numpad)", [["Enter Code Manually","Enter Address","Return"]]);
+
+        switch (row_Int)//could ask twice for column (first enter row, then column; to select sth in a matrix idk)
         {
+
             case 0:
             {
             
@@ -18,11 +23,22 @@ public interface IFile
             case 1:
             {
 
-                System.Console.WriteLine("Please Enter The Full Address To Your Text File:"); // could get directory and show all files!
+                string wrong_String = "Please Enter The Full Address To Your Text File (Enter \"exit\" To Abort):";
 
-                (_,string userAddress_String)=IRead.ReadKeyToReadLine_Function();
+                while(!userFile_FileInfo.Exists)
+                {
 
-                userFile_FileInfo = new(userAddress_String??= "");
+                    System.Console.WriteLine(wrong_String);
+
+                    wrong_String = "Address Not Found, Please Try Again:";
+
+                    (_,string userAddress_String)=IRead.KeyToLine_Function();
+
+                    if(userAddress_String == "exit")return;
+
+                    if(TxtRegex_Class().IsMatch(userAddress_String)) userFile_FileInfo = new (userAddress_String??= "");
+
+                }
 
                 if(File.Exists("local.txt"))File.Delete("local.txt");
 
@@ -33,7 +49,13 @@ public interface IFile
             default:
             {
 
-                System.Console.WriteLine("something went wrong");
+                    Console.Clear();
+
+                    System.Console.WriteLine("something went wrong");
+
+                    Thread.Sleep(500);
+
+                    Console.Clear();
 
             }break;
         }        
@@ -54,13 +76,15 @@ public interface IFile
         while(true)
         {
 
-            (int option_Int , string line_String) = IRead.ReadKeyToReadLine_Function();
+            (int option_Int , string line_String) = IRead.KeyToLine_Function();
 
             switch (option_Int)
             {
 
                 case 1:
                 {
+
+                    hint_Int=hintReset_Int;
                 
                     writeToLocalText_StreamWriter.WriteLine(line_String);
                 
@@ -127,13 +151,6 @@ public interface IFile
 
     }
 
-    public static void LineInput_Function()
-    {
-
-        System.Console.WriteLine("Enter Desired Line:");
-
-        Console.ReadLine();
-
-    }
-    
+    [GeneratedRegex(@".*\.txt$")]
+    private static partial Regex TxtRegex_Class();
 }
