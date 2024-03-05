@@ -131,7 +131,62 @@ public partial interface IFile
 
     }
 
+    private static string[][] ReadLocalFile_Function()
+    {
+
+        string[][] data_StringJArray = [];
+
+        string[][] tempData_StringJArray = [];
+
+        int rowNumber_Int = 1;
+
+        if(!File.Exists("local.txt")) return [];
+
+        StreamReader readLocalText_StreamReader = new("local.txt");
+
+        string? line_String;
+
+        while((line_String = readLocalText_StreamReader.ReadLine())!=null)
+        {
+
+            MatchCollection lineElemets_MatchCollection = ReadCSVRegex_Class().Matches(line_String);
+
+            tempData_StringJArray = new string[rowNumber_Int][];
+
+            tempData_StringJArray[rowNumber_Int-1] = new string[lineElemets_MatchCollection.Count];
+
+            for(int count_int = 0 ; count_int < lineElemets_MatchCollection.Count ; count_int++)
+            {
+
+                tempData_StringJArray[rowNumber_Int][count_int] = lineElemets_MatchCollection[count_int].ToString();
+                
+            }
+
+            for(int count_int = 0 ; count_int < lineElemets_MatchCollection.Count - 1 ; count_int++)
+            {
+
+                tempData_StringJArray[count_int] = new string[data_StringJArray[count_int].Length];
+
+                tempData_StringJArray[count_int] = data_StringJArray[count_int];
+
+            }
+
+            rowNumber_Int++;
+
+            data_StringJArray = tempData_StringJArray;
+
+        }
+
+        readLocalText_StreamReader.Dispose();
+
+        return [];
+
+    }
+
     [GeneratedRegex(@".*\.txt$")]
     private static partial Regex TxtRegex_Class();
+
+    [GeneratedRegex(@",(?<Element>.*?),")]
+    private static partial Regex ReadCSVRegex_Class();
 
 }
