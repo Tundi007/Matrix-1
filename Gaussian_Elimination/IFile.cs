@@ -210,9 +210,11 @@ public partial interface IFile
 
         string[][] data_StringJArray = [];
 
-        string[][] tempData_StringJArray = [];
+        string[][] tempData_StringJArray;
 
         int rowNumber_Int = 1;
+
+        string? line_String = "";
 
         StreamReader readLocalText_StreamReader = new("");
 
@@ -221,18 +223,19 @@ public partial interface IFile
         try
         {
 
-            readLocalText_StreamReader = new("local.txt");
+            readLocalText_StreamReader = new("local.txt");        
 
-        }
-        catch (System.Exception readFile_Exception)
+            line_String = readLocalText_StreamReader.ReadLine();
+
+        
+        }catch (System.Exception readLine_Exception)
         {
             
-            System.Console.WriteLine(readFile_Exception);
+            System.Console.WriteLine(readLine_Exception);
+
         }
 
-        string? line_String;
-
-        while((line_String = readLocalText_StreamReader.ReadLine())!=null)
+        while(line_String !=null)
         {
 
             MatchCollection lineElemets_MatchCollection = ReadCSVRegex_Class().Matches(line_String);
@@ -261,9 +264,33 @@ public partial interface IFile
 
             data_StringJArray = tempData_StringJArray;
 
+            try
+            {
+
+                line_String = readLocalText_StreamReader.ReadLine();
+
+            }
+            catch (System.Exception readLine_Exception)
+            {
+                
+                System.Console.WriteLine(readLine_Exception);
+                
+            }
+
         }
 
-        readLocalText_StreamReader.Dispose();
+        try
+        {
+
+            readLocalText_StreamReader.Dispose();
+
+        }
+        catch (System.Exception disposeWriter_Exception)
+        {
+            
+            System.Console.WriteLine(disposeWriter_Exception);
+
+        }
 
         return data_StringJArray;
 
