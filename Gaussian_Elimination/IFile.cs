@@ -24,7 +24,7 @@ public partial interface IFile
                 case ConsoleKey.D2:
                 {
 
-                    UserFile_Function();
+                    UserFileAddress_Function();
 
                 }return;
 
@@ -41,15 +41,17 @@ public partial interface IFile
         
     }
 
-    private static void UserFile_Function()
+    private static void UserFileAddress_Function()
     {
 
         FileInfo userFile_FileInfo = new("");
 
-        string hint_String = "Enter Your Address (write \"exit\" to abort):";
+        string hint_String = "Enter Your Address:";
 
         while(!userFile_FileInfo.Exists)
         {
+
+            string exitCode_String = RandomNumberGenerator.GetInt32(65535).ToString();
 
             Console.Clear();
             
@@ -57,11 +59,11 @@ public partial interface IFile
 
             hint_String = "Please Enter A Valid Address:";
 
-            string userAddress_String = IRead.KeyToLine_Function("");
+            string userAddress_String = IRead.KeyToLine_Function(exitCode_String);
 
-            if(userAddress_String.Trim() == "exit")return;
+            if(userAddress_String.Trim() == exitCode_String)return;
 
-            if(TxtRegex_Class().IsMatch(userAddress_String)) userFile_FileInfo = new (userAddress_String.Trim());
+            if(TxtRegex_Class().IsMatch(userAddress_String)) userFile_FileInfo = new (userAddress_String);
 
         }
         
@@ -73,7 +75,7 @@ public partial interface IFile
 
     }
 
-    public static void WriteToFile_Function(FileInfo appData_FileInfo)
+    private static void WriteToFile_Function(FileInfo appData_FileInfo)
     {
 
         StreamWriter storeData_StreamWriter;
