@@ -1,12 +1,11 @@
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using Gaussian_Elimination;
 
 namespace Gaussian_Elimination;
 public partial interface IFile
 {
 
-    public static void File_Function(string menu_String, string[][]menuItems_ArrayString)
+    public static void File_Function()
     {        //"How Do You Want To Proceed? (use arrow keys or select on numpad)" , [["1. Enter Code Manually","1. Enter Address","Return"]]
 
         while(true){
@@ -17,16 +16,35 @@ public partial interface IFile
                 case ConsoleKey.D1:
                 {
                 
-                    WriteToFile_Function(new("local.txt"));
+                    if(WriteToFile_Function(new("local.txt")))
+                    {
+                        
+                        ReadLocalFile_Function();
+
+                    }
                 
                 }return;
                 
                 case ConsoleKey.D2:
                 {
 
-                    UserFileAddress_Function();
+                    if(UserFileAddress_Function())
+                    {
+
+                        ReadLocalFile_Function();
+                    
+                    }
 
                 }return;
+
+                case ConsoleKey.D3:
+                {
+
+                    ReadLocalFile_Function();
+
+                }return;
+
+                case ConsoleKey.Escape | ConsoleKey.End: return;
 
                 default:
                 {
@@ -41,14 +59,14 @@ public partial interface IFile
         
     }
 
-    private static void UserFileAddress_Function()
+    private static bool UserFileAddress_Function()
     {
 
-        FileInfo userFile_FileInfo = new("");
+        string userAddress_String = "";
 
         string hint_String = "Enter Your Address:";
 
-        while(!userFile_FileInfo.Exists)
+        while(!File.Exists(userAddress_String) && TxtRegex_Class().IsMatch(userAddress_String))
         {
 
             string exitCode_String = RandomNumberGenerator.GetInt32(65535).ToString();
@@ -59,35 +77,69 @@ public partial interface IFile
 
             hint_String = "Please Enter A Valid Address:";
 
-            string userAddress_String = IRead.KeyToLine_Function(exitCode_String);
+            userAddress_String = IRead.KeyToLine_Function(exitCode_String);
 
-            if(userAddress_String.Trim() == exitCode_String)return;
-
-            if(TxtRegex_Class().IsMatch(userAddress_String)) userFile_FileInfo = new (userAddress_String);
+            if(userAddress_String == exitCode_String) return false;
 
         }
         
         if(File.Exists("local.txt"))File.Delete("local.txt");
 
-        userFile_FileInfo.CopyTo("local.txt");
+        try
+        {
+
+            File.Copy(userAddress_String, "local.txt");
+            
+        }
+        catch (Exception copyToLocal_Exception)
+        {
+
+            System.Console.WriteLine(copyToLocal_Exception);
+            
+        }
 
         System.Console.WriteLine("Success");
 
+        return true;
+
     }
 
-    private static void WriteToFile_Function(FileInfo appData_FileInfo)
+    private static bool WriteToFile_Function(FileInfo appData_FileInfo)
     {
+
+        if(!TxtRegex_Class().IsMatch(appData_FileInfo.FullName))return false;
 
         StreamWriter storeData_StreamWriter;
 
         if(appData_FileInfo.Exists)
         {
 
-            appData_FileInfo.Delete();
+            try
+            {
+
+                appData_FileInfo.Delete();
+
+            }
+            catch (System.Exception deleteLocal_Exception)
+            {
+                
+                System.Console.WriteLine(deleteLocal_Exception);
+            }
             
         }
 
-        appData_FileInfo.Create();
+        try
+        {
+
+            appData_FileInfo.Create();
+            
+        }
+        catch (System.Exception createText_Exception)
+        {
+
+            System.Console.WriteLine(createText_Exception);
+        
+        }
 
         storeData_StreamWriter = appData_FileInfo.AppendText();
 
@@ -98,34 +150,56 @@ public partial interface IFile
 
             string inputLine_String = IRead.KeyToLine_Function(exitCode_String);
 
-            switch (inputLine_String)
+            if(inputLine_String == exitCode_String)
             {
 
-                default:
+                storeData_StreamWriter.Dispose();
+                
+                if(appData_FileInfo.Exists)
                 {
 
-                    if(!Regex.IsMatch(inputLine_String,@".*" + exitCode_String + @"$"))
+                    try
                     {
 
-                        storeData_StreamWriter.WriteLine(inputLine_String);
-
-                        break;                        
+                        appData_FileInfo.Delete();
 
                     }
-
-                    inputLine_String = inputLine_String.Replace("\u2386",null);
-
-                    storeData_StreamWriter.WriteLine(inputLine_String);
-
-                    storeData_StreamWriter.Dispose();
-
-                    return;
-
+                    catch (System.Exception deleteLocal_Exception)
+                    {
+                        
+                        System.Console.WriteLine(deleteLocal_Exception);
+                    }
+                    
                 }
-
+            
+                return false;
+                
             }
 
-            storeData_StreamWriter.Dispose();     
+            if(inputLine_String.Contains(exitCode_String))
+            {
+                
+                inputLine_String = inputLine_String.Replace(exitCode_String, null);
+
+                try
+                {
+
+                    storeData_StreamWriter.WriteLine(inputLine_String);
+    
+                    storeData_StreamWriter.Dispose();
+
+                }
+                catch (System.Exception writeFile_Exception)
+                {
+                    
+                    System.Console.WriteLine(writeFile_Exception);
+                }
+
+                return true;
+            
+            }
+
+            storeData_StreamWriter.WriteLine(inputLine_String);
 
         }
 
@@ -140,9 +214,21 @@ public partial interface IFile
 
         int rowNumber_Int = 1;
 
-        if(!File.Exists("local.txt")) return [];
+        StreamReader readLocalText_StreamReader = new("");
 
-        StreamReader readLocalText_StreamReader = new("local.txt");
+        if(!File.Exists("local.txt")) return [];        
+
+        try
+        {
+
+            readLocalText_StreamReader = new("local.txt");
+
+        }
+        catch (System.Exception readFile_Exception)
+        {
+            
+            System.Console.WriteLine(readFile_Exception);
+        }
 
         string? line_String;
 

@@ -34,3 +34,21 @@
 // int[][] customDefaultArray = new int[2][];
 // for (int i = 0; i < customDefaultArray.Length; i++)customDefaultArray[i] = Enumerable.Repeat(defaultValue, 5).ToArray();
 // foreach (var item in customDefaultArray[0])System.Console.WriteLine(item);    
+// int a = 1;
+// try
+// {
+
+//     a= 5;
+
+//     System.Console.WriteLine(a);
+    
+// }
+// catch (System.Exception)
+// {
+
+//     a=2;
+    
+//     throw;
+// }
+
+// System.Console.WriteLine(a);
