@@ -5,6 +5,8 @@ namespace Gaussian_Elimination;
 public partial interface IFile
 {
 
+    private static int localFiles_Int = 1;
+
     public static void File_Function()
     {        //"How Do You Want To Proceed? (use arrow keys or select on numpad)" , [["1. Enter Code Manually","1. Enter Address","Return"]]
 
@@ -16,10 +18,10 @@ public partial interface IFile
                 case ConsoleKey.D1:
                 {
                 
-                    if(WriteToFile_Function(new("local.txt")))
+                    if(WriteToFile_Function())
                     {
                         
-                        ReadLocalFile_Function();
+                        ReadFile_Function(CurrentLocalFile_Function());
 
                     }
                 
@@ -28,19 +30,14 @@ public partial interface IFile
                 case ConsoleKey.D2:
                 {
 
-                    if(UserFileAddress_Function())
-                    {
-
-                        ReadLocalFile_Function();
-                    
-                    }
+                    UserFileAddress_Function();
 
                 }return;
 
                 case ConsoleKey.D3:
                 {
 
-                    ReadLocalFile_Function();
+                    ReadFile_Function(CurrentLocalFile_Function());
 
                 }return;
 
@@ -59,7 +56,37 @@ public partial interface IFile
         
     }
 
-    private static bool UserFileAddress_Function()
+    private static string CurrentLocalFile_Function()
+    {
+
+        return "local"+localFiles_Int+".txt";
+
+    }
+
+    private static void NextLocalFile_Function()
+    {
+
+        localFiles_Int++;
+
+    }
+
+    private static string GiveLocalFile_Function(int fileNumber_Int)
+    {
+
+        if(File.Exists("local"+fileNumber_Int+".txt")) return "local"+fileNumber_Int+".txt";
+
+        return "-1";
+
+    }
+    
+    public static string [][] GetFile_Function(string inputAddress_String)
+    {
+
+        return ReadFile_Function(inputAddress_String);
+
+    }
+
+    private static void UserFileAddress_Function()
     {
 
         string userAddress_String = "";
@@ -79,11 +106,13 @@ public partial interface IFile
 
             userAddress_String = IRead.KeyToLine_Function(exitCode_String);
 
-            if(userAddress_String == exitCode_String) return false;
+            if(userAddress_String == exitCode_String) return;
 
         }
         
-        if(File.Exists("local.txt"))File.Delete("local.txt");
+        while(File.Exists("local"+localFiles_Int+".txt"))localFiles_Int++;
+
+        ReadFile_Function(userAddress_String);
 
         try
         {
@@ -100,24 +129,41 @@ public partial interface IFile
 
         System.Console.WriteLine("Success");
 
-        return true;
-
     }
 
-    private static bool WriteToFile_Function(FileInfo appData_FileInfo)
+    private static bool WriteToFile_Function()
     {
 
-        if(!TxtRegex_Class().IsMatch(appData_FileInfo.FullName))return false;
+        string localFiles_String = "local.txt" + localFiles_Int;
 
-        StreamWriter storeData_StreamWriter;
+        FileInfo[] appData_FileInfo = [];
 
-        if(appData_FileInfo.Exists)
+        try
+        {
+
+            appData_FileInfo[localFiles_Int] = new(localFiles_String);
+
+        }
+        catch (System.Exception fileInfo_Exception)
+        {
+            
+            System.Console.WriteLine(fileInfo_Exception);
+
+        }
+
+        localFiles_Int++;
+
+        if(!TxtRegex_Class().IsMatch(appData_FileInfo[localFiles_Int].FullName))return false;
+
+        StreamWriter storeData_StreamWriter = new("");
+
+        if(appData_FileInfo[localFiles_Int].Exists)
         {
 
             try
             {
 
-                appData_FileInfo.Delete();
+                appData_FileInfo[localFiles_Int].Delete();
 
             }
             catch (System.Exception deleteLocal_Exception)
@@ -131,7 +177,9 @@ public partial interface IFile
         try
         {
 
-            appData_FileInfo.Create();
+            appData_FileInfo[localFiles_Int].Create();
+
+            storeData_StreamWriter = appData_FileInfo[localFiles_Int].AppendText();
             
         }
         catch (System.Exception createText_Exception)
@@ -140,8 +188,6 @@ public partial interface IFile
             System.Console.WriteLine(createText_Exception);
         
         }
-
-        storeData_StreamWriter = appData_FileInfo.AppendText();
 
         while(true)
         {
@@ -153,15 +199,26 @@ public partial interface IFile
             if(inputLine_String == exitCode_String)
             {
 
-                storeData_StreamWriter.Dispose();
+                try
+                {
+
+                    storeData_StreamWriter.Dispose();
+
+                }
+                catch (System.Exception disposeWriter_Exception)
+                {
+                    
+                    System.Console.WriteLine(disposeWriter_Exception);
+                    
+                }
                 
-                if(appData_FileInfo.Exists)
+                if(appData_FileInfo[localFiles_Int].Exists)
                 {
 
                     try
                     {
 
-                        appData_FileInfo.Delete();
+                        appData_FileInfo[localFiles_Int].Delete();
 
                     }
                     catch (System.Exception deleteLocal_Exception)
@@ -199,13 +256,24 @@ public partial interface IFile
             
             }
 
-            storeData_StreamWriter.WriteLine(inputLine_String);
+            try
+            {
+
+                storeData_StreamWriter.WriteLine(inputLine_String);
+
+            }
+            catch (System.Exception writeFile_Exception)
+            {
+                
+                System.Console.WriteLine(writeFile_Exception);
+
+            }
 
         }
 
-    }
+    }    
 
-    private static string[][] ReadLocalFile_Function()
+    private static string[][] ReadFile_Function(string inputAddress_String)
     {
 
         string[][] data_StringJArray = [];
@@ -218,12 +286,12 @@ public partial interface IFile
 
         StreamReader readLocalText_StreamReader = new("");
 
-        if(!File.Exists("local.txt")) return [];        
-
         try
         {
 
-            readLocalText_StreamReader = new("local.txt");        
+            File.Copy(inputAddress_String, "local"+localFiles_Int+".txt");
+
+            readLocalText_StreamReader = new(inputAddress_String);        
 
             line_String = readLocalText_StreamReader.ReadLine();
 
@@ -238,23 +306,43 @@ public partial interface IFile
         while(line_String !=null)
         {
 
-            MatchCollection lineElemets_MatchCollection = ReadCSVRegex_Class().Matches(line_String);
+            List<string> matchedNames_List = [];
+
+            int countName_Int = 0;
 
             tempData_StringJArray = new string[rowNumber_Int][];
 
-            tempData_StringJArray[rowNumber_Int-1] = new string[lineElemets_MatchCollection.Count];
+            MatchCollection lineElemets_MatchCollection = ReadCSVRegex_Class().Matches(line_String);
 
-            for(int count_int = 0 ; count_int < lineElemets_MatchCollection.Count ; count_int++)
+            foreach(Match matched_Match in lineElemets_MatchCollection)
             {
 
-                tempData_StringJArray[rowNumber_Int][count_int] = lineElemets_MatchCollection[count_int].ToString();
-                
+                if(matched_Match.Name=="Element")
+                {
+
+                    matchedNames_List.Add(matched_Match.Value);
+
+                    countName_Int++;
+
+                }
+
+            }            
+
+            tempData_StringJArray[rowNumber_Int-1] = new string[countName_Int];
+
+            countName_Int = 0;
+
+            foreach (string element_String in matchedNames_List)
+            {
+
+                tempData_StringJArray[rowNumber_Int-1][countName_Int] = element_String;
+
+                countName_Int++;
+            
             }
 
-            for(int count_int = 0 ; count_int < lineElemets_MatchCollection.Count - 1 ; count_int++)
+            for(int count_int = 0 ; count_int < rowNumber_Int - 2 ; count_int++)
             {
-
-                tempData_StringJArray[count_int] = new string[data_StringJArray[count_int].Length];
 
                 tempData_StringJArray[count_int] = data_StringJArray[count_int];
 

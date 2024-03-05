@@ -14,12 +14,10 @@ public class Process
 
     private static int[][] matrixAux2_IntArray;
 
-    public static void Process_Function()
+    public static void Process_Function(int matrixDimension_Int)
     {
 
         
-
-
 
     }
     

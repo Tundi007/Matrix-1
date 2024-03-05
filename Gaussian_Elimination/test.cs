@@ -1,3 +1,5 @@
+
+using System.Text.RegularExpressions;
 // using System.Security.Cryptography;
 // using System.Text.RegularExpressions;
 // string userAddress_Strin2g = null;
@@ -27,7 +29,7 @@
 // {
 
 //     System.Console.WriteLine(item);
-    
+
 // }
 
 // int defaultValue = 42; // Set your desired default value
@@ -41,14 +43,17 @@
 //     a= 5;
 
 //     System.Console.WriteLine(a);
-    
+
 // }
 // catch (System.Exception)
 // {
 
 //     a=2;
-    
+
 //     throw;
 // }
 
 // System.Console.WriteLine(a);
+
+MatchCollection a = Regex.Matches("012,mnv,zlm,asd",@",(?<Element>.*?),");
+
