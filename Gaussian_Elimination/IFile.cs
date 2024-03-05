@@ -179,7 +179,7 @@ public partial interface IFile
 
         readLocalText_StreamReader.Dispose();
 
-        return [];
+        return data_StringJArray;
 
     }
 
