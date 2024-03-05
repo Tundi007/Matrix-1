@@ -21,7 +21,7 @@ public partial interface IFile
                     if(WriteToFile_Function())
                     {
                         
-                        ReadFile_Function(CurrentLocalFile_Function());
+                        GetDataCSV_Function(CurrentLocalFile_Function());
 
                     }
                 
@@ -37,7 +37,7 @@ public partial interface IFile
                 case ConsoleKey.D3:
                 {
 
-                    ReadFile_Function(CurrentLocalFile_Function());
+                    GetDataCSV_Function(CurrentLocalFile_Function());
 
                 }return;
 
@@ -79,10 +79,10 @@ public partial interface IFile
 
     }
     
-    public static string [][] GetFile_Function(string inputAddress_String)
+    public static string [][] GetDataCSV_Function(string inputAddress_String)
     {
 
-        return ReadFile_Function(inputAddress_String);
+        return ReadCSV_Function(inputAddress_String);
 
     }
 
@@ -112,7 +112,7 @@ public partial interface IFile
         
         while(File.Exists("local"+localFiles_Int+".txt"))localFiles_Int++;
 
-        ReadFile_Function(userAddress_String);
+        ReadCSV_Function(userAddress_String);
 
         try
         {
@@ -273,7 +273,7 @@ public partial interface IFile
 
     }    
 
-    private static string[][] ReadFile_Function(string inputAddress_String)
+    private static string[][] ReadCSV_Function(string inputAddress_String)
     {
 
         string[][] data_StringJArray = [];
