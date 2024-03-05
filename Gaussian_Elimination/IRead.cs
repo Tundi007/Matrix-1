@@ -1,170 +1,192 @@
 using System.Runtime.InteropServices;
-
+using System.Text.RegularExpressions;
 public interface IRead
 {
     
-    public static (int,string) KeyToLine_Function()
+    public static string KeyToLine_Function(string exitCode_String)
     {
-
+        
         ConsoleKeyInfo key_ConsoleKeyInfo;
 
         string input_String = "";
 
-        System.Console.WriteLine("Press \"Ctrl\" + \"Enter\" To Finish Writing\nPress");
+        int stringIndex_Int = 0;
+
+        string menu_String = "Enter Your Text, Paste Via \"Ctrl\" + \"Shift\" + \"V\"";
+
+        if(exitCode_String != "")menu_String += ", \"End\" To Proceed To Next Step";
+
+        menu_String += " And \"Escape\" To Abort Procedure.";
+
+        Console.Clear();
+
+        System.Console.WriteLine(menu_String);
 
         while(true)
-        {
+        {           
 
-            if((key_ConsoleKeyInfo = Console.ReadKey(true)).Modifiers == ConsoleModifiers.Control & key_ConsoleKeyInfo.Key == ConsoleKey.Enter)
-            {
-
-                return (2,input_String);
-
-            }
+            key_ConsoleKeyInfo = Console.ReadKey(false); 
 
             switch (key_ConsoleKeyInfo.Key)
             {
 
-                case ConsoleKey.Enter: 
+                case ConsoleKey.Enter: Console.Clear(); return input_String;
+
+                case ConsoleKey.End: Console.Clear(); return input_String + exitCode_String;
+
+                case ConsoleKey.Escape: Console.Clear(); return exitCode_String;
+
+                case ConsoleKey.LeftArrow:
+                {
+                 
+                    if(stringIndex_Int < 1)break;
+
+                    stringIndex_Int--;
+
+                    Console.Clear();
+                    
+                    System.Console.Write(menu_String + "\n" + input_String[..stringIndex_Int] + "_"+ input_String[stringIndex_Int..]);
+
+                }break;
+
+                case ConsoleKey.RightArrow:{
+                 
+                    if(stringIndex_Int >= input_String.Length)break;
+
+                    stringIndex_Int++;
+
+                    Console.Clear();
+                    
+                    System.Console.Write(menu_String + "\n" + input_String[..stringIndex_Int] + "_"+ input_String[stringIndex_Int..]);
+
+                }break;
+
+                case ConsoleKey.Delete:
+                {                    
+
+                    if(stringIndex_Int >= input_String.Length)break;
+                    
+                    input_String = input_String.Remove(stringIndex_Int,1);
+
+                    Console.Clear();
+
+                    System.Console.Write(menu_String + "\n" + input_String[..stringIndex_Int] + "_"+ input_String[stringIndex_Int..]);
+                
+                }break;
+
+                case ConsoleKey.Backspace:
                 {
 
-                    System.Console.WriteLine();
+                    if (stringIndex_Int < 1)break;
+                        
+                    input_String = input_String.Remove(stringIndex_Int-1,1);
 
-                    if(input_String != "")
-                    {
+                    stringIndex_Int--;
+                    
+                    Console.Clear();
 
-                        return (1,input_String);
-
-                    }else
-                    {
-
-                        return (3,input_String);
-
-                    }
-
-                }
-
-                case ConsoleKey.Escape: return (4,input_String);
+                    System.Console.Write(menu_String + "\n" + input_String[..stringIndex_Int] + "_"+ input_String[stringIndex_Int..]);
+                    
+                }break;
 
                 default:
-                {                          
+                {
                 
-                    input_String += key_ConsoleKeyInfo.KeyChar.ToString();
-                
-                    Console.Write(key_ConsoleKeyInfo.KeyChar);
+                    input_String = input_String[..stringIndex_Int] + key_ConsoleKeyInfo.KeyChar.ToString() + input_String[stringIndex_Int..];
+
+                    stringIndex_Int++;
+
+                    Console.Clear();
+                                    
+                    System.Console.Write(menu_String + "\n" + input_String[..stringIndex_Int] + "_"+ input_String[stringIndex_Int..]);
                 
                 }break;
 
             }
 
         }
+
     }
 
-    public static (int,int,ConsoleKey) KeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString)
+    public static (int,int) KeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString)
     {
         
-        ConsoleKeyInfo userKey_ConsoleKeyInfo;
+        ConsoleKeyInfo key_ConsoleKeyInfo;
 
-        (int menuPointerRow_Int, int menuPointerColumn_Int) = (1,1);
+        (int menuPointerRow_Int, int menuPointerColumn_Int, string hint_String) = (1,1,"Use Arrow Keys To Navigate, \"Enter\" To Select, \"Delete\" To Remove An Element, \"E\" To Replace Element With New Value");
 
-        ShowMenu_Function(menuItems_ArrayString, menuPointerRow_Int, menuPointerColumn_Int);
-
-        while((userKey_ConsoleKeyInfo = Console.ReadKey()).Key != ConsoleKey.Escape)
+        while(true)
         {
 
-            if(userKey_ConsoleKeyInfo.Key == ConsoleKey.Enter)return(menuPointerRow_Int,menuPointerColumn_Int,userKey_ConsoleKeyInfo.Key);      
-            
             Console.Clear();
 
-            (menuPointerRow_Int,menuPointerColumn_Int) = Navigation_Function(userKey_ConsoleKeyInfo.Key, menuItems_ArrayString , menuPointerRow_Int , menuPointerColumn_Int );
-
+            System.Console.WriteLine(menuStatic_String);
+            
             ShowMenu_Function(menuItems_ArrayString, menuPointerRow_Int, menuPointerColumn_Int);
 
-        }
+            System.Console.WriteLine(hint_String);
 
-        return(-1,-1,ConsoleKey.None);
+            hint_String = "Use Arrow Keys To Navigate, \"Enter\" To Select, \"Delete\" To Remove An Element, \"E\" To Replace Element With New Value";
 
-    } // was fixing navigation***
-
-    public static (int,int) Navigation_Function(ConsoleKey input_ConsoleKey, string[][] menuItems_ArrayString , int menuPointerRow_Int , int menuPointerColumn_Int)
-    {
-
-        switch (input_ConsoleKey)
-        {
-            case ConsoleKey.UpArrow:
+            switch ((key_ConsoleKeyInfo = Console.ReadKey(false)).Key)
             {
 
-                if(menuPointerRow_Int < 1)
+                case ConsoleKey.Enter: Console.Clear(); return (menuPointerRow_Int,menuPointerColumn_Int);
+
+                case ConsoleKey.Escape: Console.Clear(); return (-1,-1);
+
+                case ConsoleKey.LeftArrow:
                 {
+                 
+                    if(menuPointerColumn_Int < 1)break;
 
-                    break;
+                    menuPointerColumn_Int--;
 
-                }
+                }break;
 
-                menuPointerRow_Int--;
+                case ConsoleKey.RightArrow:{
+                 
+                    if(menuPointerColumn_Int >= menuItems_ArrayString[menuPointerRow_Int].Length)break;
+
+                    menuPointerColumn_Int++;
+
+                }break;
+
+                case ConsoleKey.UpArrow:{
+                 
+                    if(menuPointerRow_Int < 1)break;
+
+                    menuPointerRow_Int--;
+
+                    if(menuItems_ArrayString[menuPointerRow_Int].Length<menuPointerColumn_Int)menuPointerColumn_Int = menuItems_ArrayString[menuPointerRow_Int].Length;
+
+                }break;
+
+                case ConsoleKey.DownArrow:{
+                 
+                    if(menuPointerRow_Int >= menuItems_ArrayString.Length)break;
+
+                    menuPointerRow_Int++;
+
+                }break;
+
+                case ConsoleKey.Delete:
+                {                    
+
+                    menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int] = "_";
+                
+                }break;
+
+                default:
+                {
+                    
+                    hint_String = "Undefined Input, " + hint_String;
+                
+                }break;
 
             }
-
-                break;
-            case ConsoleKey.DownArrow:
-            {
-
-                if(menuPointerRow_Int > menuItems_ArrayString.GetUpperBound(0))
-                {
-
-                    break;
-
-                }
-
-                menuPointerRow_Int++;
-
-                if(menuPointerColumn_Int > menuItems_ArrayString[menuPointerRow_Int].GetUpperBound(0))
-                {
-
-                    menuPointerColumn_Int = menuItems_ArrayString[menuPointerRow_Int].GetUpperBound(0);
-
-                }
-
-            }
-                break;
-            case ConsoleKey.LeftArrow:
-            {
-
-                if(menuPointerColumn_Int < 1)
-                {
-
-                    break;
-
-                }
-
-                menuPointerColumn_Int--;
-
-            }
-                break;
-            case ConsoleKey.RightArrow:
-            {
-
-                if(menuPointerColumn_Int > menuItems_ArrayString[menuPointerRow_Int].GetUpperBound(0))
-                {
-
-                    break;
-
-                }
-
-                menuPointerRow_Int++;
-
-            }
-                break;
-            default:
-            {
-
-                System.Console.WriteLine("Unknown Input, Use The Arrow Keys (navigation), Hit Enter (selecting) or Escape (Abort)");
-
-            }break;
 
         }
-
-        return (menuPointerRow_Int,menuPointerColumn_Int);
 
     }
 
@@ -180,16 +202,18 @@ public interface IRead
                 if(rowNumber_Int == menuPointerRow_Int && columnNumber_Int == menuPointerColumn_Int)
                 {
 
-                    System.Console.WriteLine($"{menuItems_ArrayString[rowNumber_Int][columnNumber_Int]} <-");
+                    System.Console.Write($"->{menuItems_ArrayString[rowNumber_Int][columnNumber_Int]}<- ");
 
                 }else
                 {
 
-                    System.Console.WriteLine($"{menuItems_ArrayString[rowNumber_Int][columnNumber_Int]}");
+                    System.Console.Write($"{menuItems_ArrayString[rowNumber_Int][columnNumber_Int]} ");
 
                 }
 
             }
+
+            System.Console.WriteLine();
 
         }
 

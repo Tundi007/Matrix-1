@@ -1,6 +1,6 @@
 namespace Gaussian_Elimination
 {
-    public class Data : IFile
+    public class Data
     {
         
     }

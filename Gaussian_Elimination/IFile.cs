@@ -1,151 +1,129 @@
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using Gaussian_Elimination;
 
+namespace Gaussian_Elimination;
 public partial interface IFile
 {
 
-    public static void File_Function(string menuItems_String, string[][]menuItems_ArrayString)
+    public static void File_Function(string menu_String, string[][]menuItems_ArrayString)
+    {        //"How Do You Want To Proceed? (use arrow keys or select on numpad)" , [["1. Enter Code Manually","1. Enter Address","Return"]]
+
+        while(true){
+
+            switch(Console.ReadKey().Key) //could ask twice for column (first enter row, then column; to select sth in a matrix idk)
+            {
+
+                case ConsoleKey.D1:
+                {
+                
+                    WriteToFile_Function(new("local.txt"));
+                
+                }return;
+                
+                case ConsoleKey.D2:
+                {
+
+                    UserFile_Function();
+
+                }return;
+
+                default:
+                {
+                    
+                    System.Console.WriteLine("undefined action or key / something went wrong");
+
+                }break;
+
+            }
+
+        }
+        
+    }
+
+    private static void UserFile_Function()
     {
 
         FileInfo userFile_FileInfo = new("");
 
-        (int row_Int, int column_Int, ConsoleKey userKey_ConsoleKey) = IRead.KeyMenu_Function("How Do You Want To Proceed? (use arrow keys or select on numpad)", [["Enter Code Manually","Enter Address","Return"]]);
+        string hint_String = "Enter Your Address (write \"exit\" to abort):";
 
-        switch (row_Int)//could ask twice for column (first enter row, then column; to select sth in a matrix idk)
+        while(!userFile_FileInfo.Exists)
         {
 
-            case 0:
-            {
+            Console.Clear();
             
-                WriteToFile_Function(new("local.txt"));
-            
-            }break;
-            
-            case 1:
-            {
+            System.Console.WriteLine(hint_String);
 
-                string wrong_String = "Please Enter The Full Address To Your Text File (Enter \"exit\" To Abort):";
+            hint_String = "Please Enter A Valid Address:";
 
-                while(!userFile_FileInfo.Exists)
-                {
+            string userAddress_String = IRead.KeyToLine_Function("");
 
-                    System.Console.WriteLine(wrong_String);
+            if(userAddress_String.Trim() == "exit")return;
 
-                    wrong_String = "Address Not Found, Please Try Again:";
+            if(TxtRegex_Class().IsMatch(userAddress_String)) userFile_FileInfo = new (userAddress_String.Trim());
 
-                    (_,string userAddress_String)=IRead.KeyToLine_Function();
-
-                    if(userAddress_String == "exit")return;
-
-                    if(TxtRegex_Class().IsMatch(userAddress_String)) userFile_FileInfo = new (userAddress_String??= "");
-
-                }
-
-                if(File.Exists("local.txt"))File.Delete("local.txt");
-
-                userFile_FileInfo.CopyTo("local.txt");
-
-            }break;
-
-            default:
-            {
-
-                    Console.Clear();
-
-                    System.Console.WriteLine("something went wrong");
-
-                    Thread.Sleep(500);
-
-                    Console.Clear();
-
-            }break;
-        }        
+        }
         
+        if(File.Exists("local.txt"))File.Delete("local.txt");
+
+        userFile_FileInfo.CopyTo("local.txt");
+
+        System.Console.WriteLine("Success");
+
     }
 
     public static void WriteToFile_Function(FileInfo appData_FileInfo)
     {
 
-        if(appData_FileInfo.Exists)appData_FileInfo.Delete();
-        
-        StreamWriter writeToLocalText_StreamWriter = appData_FileInfo.AppendText();
+        StreamWriter storeData_StreamWriter;
 
-        int hint_Int = 3;
+        if(appData_FileInfo.Exists)
+        {
 
-        int hintReset_Int = hint_Int;
+            appData_FileInfo.Delete();
+            
+        }
+
+        appData_FileInfo.Create();
+
+        storeData_StreamWriter = appData_FileInfo.AppendText();
 
         while(true)
         {
 
-            (int option_Int , string line_String) = IRead.KeyToLine_Function();
+            string exitCode_String = RandomNumberGenerator.GetInt32(65535).ToString();
 
-            switch (option_Int)
+            string inputLine_String = IRead.KeyToLine_Function(exitCode_String);
+
+            switch (inputLine_String)
             {
-
-                case 1:
-                {
-
-                    hint_Int=hintReset_Int;
-                
-                    writeToLocalText_StreamWriter.WriteLine(line_String);
-                
-                }break;
-
-                case 2:
-                {
-
-                    if(line_String!="")
-                    {
-
-                        writeToLocalText_StreamWriter.WriteLine(line_String);
-
-                    }
-                
-                    writeToLocalText_StreamWriter.Dispose();
-                
-                }return;
-
-                case 3:
-                {
-
-                    writeToLocalText_StreamWriter.WriteLine(line_String);
-
-                    hint_Int--;
-
-                    if(hint_Int<1)
-                    {
-
-                        hintReset_Int += 3;
-
-                        hint_Int=hintReset_Int;
-
-                        System.Console.WriteLine("(hint: hold \"ctrl\" and press \"Enter\" to finish; press \"escape\" to abort and reverse changes)");
-
-                    }                    
-
-                }break;
-
-                case 4:
-                {
-                
-                    writeToLocalText_StreamWriter.Dispose();  
-                
-                    appData_FileInfo.Delete();
-                
-                }return;
 
                 default:
                 {
-                    Console.Clear();
 
-                    System.Console.WriteLine("something went wrong");
+                    if(!Regex.IsMatch(inputLine_String,@".*" + exitCode_String + @"$"))
+                    {
 
-                    Thread.Sleep(500);
+                        storeData_StreamWriter.WriteLine(inputLine_String);
 
-                    Console.Clear();
+                        break;                        
 
-                }break;
+                    }
 
-            }            
+                    inputLine_String = inputLine_String.Replace("\u2386",null);
+
+                    storeData_StreamWriter.WriteLine(inputLine_String);
+
+                    storeData_StreamWriter.Dispose();
+
+                    return;
+
+                }
+
+            }
+
+            storeData_StreamWriter.Dispose();     
 
         }
 
@@ -153,4 +131,5 @@ public partial interface IFile
 
     [GeneratedRegex(@".*\.txt$")]
     private static partial Regex TxtRegex_Class();
+
 }
