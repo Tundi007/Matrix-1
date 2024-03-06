@@ -1,11 +1,12 @@
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Gaussian_Elimination;
 public partial interface IFile
 {
 
-    private static int localFiles_Int = 1;
+    private static int currentTextFile_Int = 1;
 
     public static void File_Function()
     {        //"How Do You Want To Proceed? (use arrow keys or select on numpad)" , [["1. Enter Code Manually","1. Enter Address","Return"]]
@@ -56,17 +57,26 @@ public partial interface IFile
         
     }
 
-    private static string CurrentLocalFile_Function()
+    public static string CurrentLocalFile_Function()
     {
 
-        return "local"+localFiles_Int+".txt";
+        return "local"+currentTextFile_Int+".txt";
+
+    }
+
+    public static string CurrentCSVFile_Function()
+    {
+
+        File.Copy(CurrentLocalFile_Function(),"local"+currentTextFile_Int+".csv");
+
+        return "local"+currentTextFile_Int+".csv";
 
     }
 
     private static void NextLocalFile_Function()
     {
 
-        while(File.Exists(CurrentLocalFile_Function()))localFiles_Int++;
+        while(File.Exists(CurrentLocalFile_Function()))currentTextFile_Int++;
 
     }
 
@@ -92,7 +102,7 @@ public partial interface IFile
         if(File.Exists("local"+localFileNumber_Int+".txt"))
         {
 
-            localFiles_Int = localFileNumber_Int;
+            currentTextFile_Int = localFileNumber_Int;
             
         }
 
@@ -105,7 +115,7 @@ public partial interface IFile
 
     }
 
-    private static void UserFileAddress_Function()
+    private static void UserFileAddress_Function() //currently only for csv files
     {
 
         string userAddress_String = "";
@@ -160,7 +170,7 @@ public partial interface IFile
         try
         {
 
-            appData_FileInfo[localFiles_Int] = new(localFiles_String);
+            appData_FileInfo[currentTextFile_Int] = new(localFiles_String);
 
         }
         catch (System.Exception fileInfo_Exception)
@@ -172,17 +182,17 @@ public partial interface IFile
 
         NextLocalFile_Function();
 
-        if(!TxtRegex_Class().IsMatch(appData_FileInfo[localFiles_Int].FullName))return false;
+        if(!TxtRegex_Class().IsMatch(appData_FileInfo[currentTextFile_Int].FullName))return false;
 
         StreamWriter storeData_StreamWriter = new("");
 
-        if(appData_FileInfo[localFiles_Int].Exists)
+        if(appData_FileInfo[currentTextFile_Int].Exists)
         {
 
             try
             {
 
-                appData_FileInfo[localFiles_Int].Delete();
+                appData_FileInfo[currentTextFile_Int].Delete();
 
             }
             catch (System.Exception deleteLocal_Exception)
@@ -196,9 +206,9 @@ public partial interface IFile
         try
         {
 
-            appData_FileInfo[localFiles_Int].Create();
+            appData_FileInfo[currentTextFile_Int].Create();
 
-            storeData_StreamWriter = appData_FileInfo[localFiles_Int].AppendText();
+            storeData_StreamWriter = appData_FileInfo[currentTextFile_Int].AppendText();
             
         }
         catch (System.Exception createText_Exception)
@@ -231,13 +241,13 @@ public partial interface IFile
                     
                 }
                 
-                if(appData_FileInfo[localFiles_Int].Exists)
+                if(appData_FileInfo[currentTextFile_Int].Exists)
                 {
 
                     try
                     {
 
-                        appData_FileInfo[localFiles_Int].Delete();
+                        appData_FileInfo[currentTextFile_Int].Delete();
 
                     }
                     catch (System.Exception deleteLocal_Exception)
@@ -397,6 +407,65 @@ public partial interface IFile
         }
 
         return data_StringJArray;
+
+    }
+
+    private static string[][] SystemReadCSV_Function(string inputAddress_String)
+    {
+
+        TextFieldParser csvRead_TextFieldParser = new(new StreamReader(""));
+
+        List<string[]>? tempList_StringList = [];
+
+        int totalRow_Int = 0;
+
+        string[][] readCsv_StringArray2D;
+
+        try
+        {
+
+            csvRead_TextFieldParser = new(new StreamReader(CurrentCSVFile_Function()));
+
+        }
+        catch (System.Exception csvRead_Exception)
+        {
+            
+            System.Console.WriteLine(csvRead_Exception);
+
+        }
+
+        while((tempList_StringList[totalRow_Int] = [..(string[]?)csvRead_TextFieldParser.ReadFields()])!=null)
+        {
+
+            totalRow_Int++;            
+            
+        }
+        
+        readCsv_StringArray2D = new string[totalRow_Int+1][];
+
+        {
+
+            int currentRow_Int = 0;
+
+            while(currentRow_Int<totalRow_Int)
+            {
+
+                readCsv_StringArray2D[currentRow_Int] = new string[tempList_StringList[currentRow_Int].Length];
+
+                for(int row_int = 0; row_int<totalRow_Int;row_int++)
+                {
+
+                    readCsv_StringArray2D[row_int] = tempList_StringList[row_int];
+                    
+                }
+
+                currentRow_Int++;
+
+            }
+
+        }
+
+        return readCsv_StringArray2D; // or we could send the list itself and let the destination handle it to array
 
     }
 
