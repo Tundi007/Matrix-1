@@ -415,7 +415,7 @@ public partial interface IFile
 
         TextFieldParser csvRead_TextFieldParser = new(new StreamReader(""));
 
-        List<string[]>? tempList_StringList = [];
+        List<string[]>? tempList_StringArrayList = [];
 
         int totalRow_Int = 0;
 
@@ -424,20 +424,22 @@ public partial interface IFile
         try
         {
 
-            csvRead_TextFieldParser = new(new StreamReader(CurrentCSVFile_Function()));
+            File.Copy(inputAddress_String, CurrentLocalFile_Function());
 
-        }
-        catch (System.Exception csvRead_Exception)
+            csvRead_TextFieldParser = new(CurrentLocalFile_Function());        
+
+        
+        }catch (System.Exception csvRead_Exception)
         {
             
             System.Console.WriteLine(csvRead_Exception);
 
         }
 
-        while((tempList_StringList[totalRow_Int] = [..(string[]?)csvRead_TextFieldParser.ReadFields()])!=null)
+        while((tempList_StringArrayList[totalRow_Int] = [..(string[]?)csvRead_TextFieldParser.ReadFields()])!=null)
         {
 
-            totalRow_Int++;            
+            totalRow_Int++;
             
         }
         
@@ -450,12 +452,12 @@ public partial interface IFile
             while(currentRow_Int<totalRow_Int)
             {
 
-                readCsv_StringArray2D[currentRow_Int] = new string[tempList_StringList[currentRow_Int].Length];
+                readCsv_StringArray2D[currentRow_Int] = new string[tempList_StringArrayList[currentRow_Int].Length];
 
                 for(int row_int = 0; row_int<totalRow_Int;row_int++)
                 {
 
-                    readCsv_StringArray2D[row_int] = tempList_StringList[row_int];
+                    readCsv_StringArray2D[row_int] = tempList_StringArrayList[row_int];
                     
                 }
 
@@ -465,7 +467,10 @@ public partial interface IFile
 
         }
 
-        return readCsv_StringArray2D; // or we could send the list itself and let the destination handle it to array
+        return readCsv_StringArray2D;
+        
+        // or we could delete all the array stuff send the list itself and let the destination handle it to array
+        //return tempList_StringArrayList;
 
     }
 

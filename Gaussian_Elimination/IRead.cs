@@ -3,6 +3,8 @@ using System.Text.RegularExpressions;
 public interface IRead
 {
 
+    //make use of got to in switch cases
+
     public static string KeyToLine_Function(string exitCode_String)
     {
         
