@@ -1,5 +1,5 @@
 // using System.Text.RegularExpressions;
-// using System.Security.Cryptography;
+// using System.Security.Cryptography; 
 // using System.Text.RegularExpressions;
 // string userAddress_Strin2g = null;
 // if((userAddress_Strin2g??="a")==null){System.Console.WriteLine("null");}else{System.Console.WriteLine(userAddress_Strin2g);}
@@ -54,5 +54,28 @@
 
 // System.Console.WriteLine(a);
 
-// MatchCollection a = Regex.Matches("012,mnv,zlm,asd",@",(?<Element>.*?),");
+using System.Globalization;
+using System.Text.RegularExpressions;
 
+string? a = "ad , , 012 , ,m@nv-,zlm ,asd!a*&(@A> , , , ,,";
+
+while(!string.IsNullOrEmpty(a))
+{
+
+    Match c = MyRegex().Match(a);
+
+    a = a.Remove(0,c.ToString().Length);
+
+    string b = c.ToString().Replace(",",null).Trim();
+
+    if(string.IsNullOrWhiteSpace(b)) b = "_";
+
+    System.Console.WriteLine(b);
+    
+}
+
+partial class Program
+{
+    [GeneratedRegex(@"(?<Element>,?[^,]+|,?\s*)|(?<NA>.*)?")]
+    private static partial Regex MyRegex();
+}

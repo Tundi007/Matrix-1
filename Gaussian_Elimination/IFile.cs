@@ -66,16 +66,35 @@ public partial interface IFile
     private static void NextLocalFile_Function()
     {
 
-        localFiles_Int++;
+        while(File.Exists(CurrentLocalFile_Function()))localFiles_Int++;
 
     }
 
-    private static string GiveLocalFile_Function(int fileNumber_Int)
+    private static bool CheckLocalFile_Function(int localFileNumber_Int , bool changeLocalFile_Bool)
     {
 
-        if(File.Exists("local"+fileNumber_Int+".txt")) return "local"+fileNumber_Int+".txt";
+        if(File.Exists("local"+localFileNumber_Int+".txt"))
+        {
 
-        return "-1";
+            if(changeLocalFile_Bool)SelectLocalFile_Function(localFileNumber_Int);
+        
+            return true;
+            
+        }
+
+        return false;
+
+    }
+
+    private static void SelectLocalFile_Function(int localFileNumber_Int)
+    {
+
+        if(File.Exists("local"+localFileNumber_Int+".txt"))
+        {
+
+            localFiles_Int = localFileNumber_Int;
+            
+        }
 
     }
     
@@ -93,7 +112,7 @@ public partial interface IFile
 
         string hint_String = "Enter Your Address:";
 
-        while(!File.Exists(userAddress_String) && TxtRegex_Class().IsMatch(userAddress_String))
+        while(!File.Exists(userAddress_String) && !TxtRegex_Class().IsMatch(userAddress_String))
         {
 
             string exitCode_String = RandomNumberGenerator.GetInt32(65535).ToString();
@@ -110,7 +129,7 @@ public partial interface IFile
 
         }
         
-        while(File.Exists("local"+localFiles_Int+".txt"))localFiles_Int++;
+        NextLocalFile_Function();
 
         ReadCSV_Function(userAddress_String);
 
@@ -131,10 +150,10 @@ public partial interface IFile
 
     }
 
-    private static bool WriteToFile_Function()
+    private static bool WriteToFile_Function() //could input "int" to decide which local file to use and used repeatedly to get lots of data
     {
 
-        string localFiles_String = "local.txt" + localFiles_Int;
+        string localFiles_String = CurrentLocalFile_Function();
 
         FileInfo[] appData_FileInfo = [];
 
@@ -151,7 +170,7 @@ public partial interface IFile
 
         }
 
-        localFiles_Int++;
+        NextLocalFile_Function();
 
         if(!TxtRegex_Class().IsMatch(appData_FileInfo[localFiles_Int].FullName))return false;
 
@@ -276,9 +295,7 @@ public partial interface IFile
     private static string[][] ReadCSV_Function(string inputAddress_String)
     {
 
-        string[][] data_StringJArray = [];
-
-        string[][] tempData_StringJArray;
+        string[][] data_StringJArray = [];        
 
         int rowNumber_Int = 1;
 
@@ -289,7 +306,7 @@ public partial interface IFile
         try
         {
 
-            File.Copy(inputAddress_String, "local"+localFiles_Int+".txt");
+            File.Copy(inputAddress_String, CurrentLocalFile_Function());
 
             readLocalText_StreamReader = new(inputAddress_String);        
 
@@ -303,41 +320,40 @@ public partial interface IFile
 
         }
 
-        while(line_String !=null)
+        while(!string.IsNullOrEmpty(line_String))
         {
 
-            List<string> matchedNames_List = [];
+            string[][] tempData_StringJArray = new string[rowNumber_Int][];
 
-            int countName_Int = 0;
+            MatchCollection elements_MatchCollection = ReadCSVRegex_Class().Matches(line_String);
 
-            tempData_StringJArray = new string[rowNumber_Int][];
-
-            MatchCollection lineElemets_MatchCollection = ReadCSVRegex_Class().Matches(line_String);
-
-            foreach(Match matched_Match in lineElemets_MatchCollection)
             {
 
-                if(matched_Match.Name=="Element")
+                int numberOfElements_Int = 0;
+
+                foreach (Match matched_Match in elements_MatchCollection)
                 {
 
-                    matchedNames_List.Add(matched_Match.Value);
-
-                    countName_Int++;
-
+                    numberOfElements_Int++;
+                    
                 }
+                
+                tempData_StringJArray[rowNumber_Int-1] = new string[numberOfElements_Int];
 
-            }            
+                numberOfElements_Int = 0;
 
-            tempData_StringJArray[rowNumber_Int-1] = new string[countName_Int];
+                foreach (Match element_Match in elements_MatchCollection)
+                {
 
-            countName_Int = 0;
+                    string element_String = element_Match.Value.Replace(",",null).Trim();
 
-            foreach (string element_String in matchedNames_List)
-            {
+                    if(string.IsNullOrWhiteSpace(element_String)) element_String = "_";
 
-                tempData_StringJArray[rowNumber_Int-1][countName_Int] = element_String;
+                    tempData_StringJArray[rowNumber_Int-1][numberOfElements_Int] = element_Match.Value;
 
-                countName_Int++;
+                    numberOfElements_Int++;
+                    
+                }
             
             }
 
@@ -385,9 +401,11 @@ public partial interface IFile
     }
 
     [GeneratedRegex(@".*\.txt$")]
+    
     private static partial Regex TxtRegex_Class();
 
-    [GeneratedRegex(@",(?<Element>.*?),")]
+    [GeneratedRegex(@"(?<Element>,?[^,]+|,?\s*)|(?<NA>.*)?")]
+
     private static partial Regex ReadCSVRegex_Class();
 
 }
