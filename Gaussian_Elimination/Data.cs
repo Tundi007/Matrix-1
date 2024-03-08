@@ -7,75 +7,103 @@ namespace Gaussian_Elimination;
 public class Data
 {
 
-    private static int numberOfMatrices_Int = 0;
+    private static int numberOfMatricesPrivate_Int = 0;
 
-    private static string[][][] data_StringArray2D
+    private static readonly List<int> checkedFilesPrivate_ListInt = [];
+
+    private static string[][]?[] dataPrivate_StringArray3D
     {
      
         set
         {
 
-            data_StringArray2D = value;
+            dataPrivate_StringArray3D = value;
 
         }
      
         get
         {
 
-            return data_StringArray2D;
+            return dataPrivate_StringArray3D;
 
         }
         
     }
 
-    public static string[][][] publicData_StringArray2D
+    public static string[][]?[] publicData_StringArray3D
     {
         
         get
         {
 
-            return data_StringArray2D;
+            return dataPrivate_StringArray3D;
 
         }
         
     }
 
-    public static string[][] GetData_Function(int matrixNumber_Int)
+    public static string[][]? GetDataSets_Function(int matrixNumber_Int)
     {
 
-        if(0 < matrixNumber_Int & matrixNumber_Int < numberOfMatrices_Int) return publicData_StringArray2D[matrixNumber_Int];
+        if(!checkedFilesPrivate_ListInt.Contains(matrixNumber_Int)) return [["-1"]];
 
-        return [["-1"]];
+        return publicData_StringArray3D[matrixNumber_Int-1];
 
     }
 
-    public static void InitializeData_Function()
+    public static bool InitializeData_Function(int thisFIle_Int)
     {
 
-        SetData_Function();
+        if(checkedFilesPrivate_ListInt.Contains(thisFIle_Int))return false;
+
+        System.Console.WriteLine(SetDataCSVPrivate_Function(thisFIle_Int));
+
+        return true;
 
     }
 
-    private static void SetData_Function()
+    private static string SetDataCSVPrivate_Function(int thisFIle_Int)
     {
 
-        data_StringArray2D[numberOfMatrices_Int] = IFile.GetDataCSV_Function(IFile.CurrentLocalFile_Function());
+        if(IFile.CheckLocalFile_Function(thisFIle_Int,true))return "File Doesn't Exist!";
 
-        numberOfMatrices_Int++;
+        checkedFilesPrivate_ListInt.Add(thisFIle_Int);
 
-        // { this is if we need to new with every matrix
+        dataPrivate_StringArray3D[numberOfMatricesPrivate_Int] = IFile.GetDataCSV_Function(IFile.CurrentLocalFile_Function());
 
-        //     string[][][] tempData_StringArray2D=[];
+        numberOfMatricesPrivate_Int++;
 
-        //     for(int matrix_int = 0; matrix_int<numberOfMatrices_Int ; matrix_int++)
-        //     {
+        return "done";
 
-        //         tempData_StringArray2D = publicData_StringArray2D;
-                
-        //     }
-        
-        // }        
+    }
+
+    public static bool OverWriteData_Function(int thisFIle_Int)
+    {
+
+        if(!checkedFilesPrivate_ListInt.Contains(thisFIle_Int))return false;
+
+        return ChangeDataCSVPrivate_Function(thisFIle_Int, checkedFilesPrivate_ListInt.IndexOf(thisFIle_Int));
+
+    }
+
+    private static bool ChangeDataCSVPrivate_Function(int thisFIle_Int,int thisData_int)
+    {
+
+        if(!IFile.CheckLocalFile_Function(thisFIle_Int,true))return false;
+
+        dataPrivate_StringArray3D[thisData_int] = IFile.GetDataCSV_Function(IFile.CurrentLocalFile_Function());
+
+        return true;
 
     }
     
+    private static bool DerefrenceDataCSVPrivate_Function(int thisFIle_Int)
+    {
+
+        if(!checkedFilesPrivate_ListInt.Contains(thisFIle_Int))return false;
+
+        return true;
+        
+    }
+
 }

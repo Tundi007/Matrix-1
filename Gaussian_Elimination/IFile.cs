@@ -80,13 +80,13 @@ public partial interface IFile
 
     }
 
-    private static bool CheckLocalFile_Function(int localFileNumber_Int , bool changeLocalFile_Bool)
+    public static bool CheckLocalFile_Function(int localFileNumber_Int , bool changeLocalFile_Bool)
     {
 
         if(File.Exists("local"+localFileNumber_Int+".txt"))
         {
 
-            if(changeLocalFile_Bool)SelectLocalFile_Function(localFileNumber_Int);
+            if(changeLocalFile_Bool)if(File.Exists("local"+localFileNumber_Int+".txt"))currentTextFile_Int = localFileNumber_Int;;
         
             return true;
             
@@ -96,22 +96,12 @@ public partial interface IFile
 
     }
 
-    private static void SelectLocalFile_Function(int localFileNumber_Int)
-    {
-
-        if(File.Exists("local"+localFileNumber_Int+".txt"))
-        {
-
-            currentTextFile_Int = localFileNumber_Int;
-            
-        }
-
-    }
-    
     public static string [][] GetDataCSV_Function(string inputAddress_String)
     {
 
         return ReadCSV_Function(inputAddress_String);
+
+        // SystemReadCSV_Function(inputAddress_String);
 
     }
 
@@ -410,23 +400,21 @@ public partial interface IFile
 
     }
 
-    private static string[][] SystemReadCSV_Function(string inputAddress_String)
+    private static string[]?[] SystemReadCSV_Function(string inputAddress_String)
     {
 
         TextFieldParser csvRead_TextFieldParser = new(new StreamReader(""));
 
-        List<string[]>? tempList_StringArrayList = [];
-
         int totalRow_Int = 0;
 
-        string[][] readCsv_StringArray2D;
+        string[]?[]? readCSV_StringArray2D = [];
 
         try
         {
 
             File.Copy(inputAddress_String, CurrentLocalFile_Function());
 
-            csvRead_TextFieldParser = new(CurrentLocalFile_Function());        
+            csvRead_TextFieldParser = new(CurrentLocalFile_Function());
 
         
         }catch (System.Exception csvRead_Exception)
@@ -436,43 +424,20 @@ public partial interface IFile
 
         }
 
-        while((tempList_StringArrayList[totalRow_Int] = [..(string[]?)csvRead_TextFieldParser.ReadFields()])!=null)
+        while((readCSV_StringArray2D[totalRow_Int] = csvRead_TextFieldParser.ReadFields())!=null)
         {
 
             totalRow_Int++;
             
         }
-        
-        readCsv_StringArray2D = new string[totalRow_Int+1][];
 
-        {
+        readCSV_StringArray2D??=[];
 
-            int currentRow_Int = 0;
-
-            while(currentRow_Int<totalRow_Int)
-            {
-
-                readCsv_StringArray2D[currentRow_Int] = new string[tempList_StringArrayList[currentRow_Int].Length];
-
-                for(int row_int = 0; row_int<totalRow_Int;row_int++)
-                {
-
-                    readCsv_StringArray2D[row_int] = tempList_StringArrayList[row_int];
-                    
-                }
-
-                currentRow_Int++;
-
-            }
-
-        }
-
-        return readCsv_StringArray2D;
-        
-        // or we could delete all the array stuff send the list itself and let the destination handle it to array
-        //return tempList_StringArrayList;
+        return readCSV_StringArray2D;
 
     }
+
+
 
     [GeneratedRegex(@".*\.txt$")]
     

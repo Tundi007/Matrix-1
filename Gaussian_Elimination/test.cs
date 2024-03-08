@@ -54,28 +54,66 @@
 
 // System.Console.WriteLine(a);
 
-using System.Globalization;
-using System.Text.RegularExpressions;
+// using System.Globalization;
+// using System.Text.RegularExpressions;
 
-string? a = "ad , , 012 , ,m@nv-,zlm ,asd!a*&(@A> , , , ,,";
+// string? a = "ad , , 012 , ,m@nv-,zlm ,asd!a*&(@A> , , , ,,";
 
-while(!string.IsNullOrEmpty(a))
+// while(!string.IsNullOrEmpty(a))
+// {
+
+//     Match c = MyRegex().Match(a);
+
+//     a = a.Remove(0,c.ToString().Length);
+
+//     string b = c.ToString().Replace(",",null).Trim();
+
+//     if(string.IsNullOrWhiteSpace(b)) b = "_";
+
+//     System.Console.WriteLine(b);
+    
+// }
+
+// partial class Program
+// {
+//     [GeneratedRegex(@"(?<Element>,?[^,]+|,?\s*)|(?<NA>.*)?")]
+//     private static partial Regex MyRegex();
+// }
+
+string[][] a=[];
+
+a = [["2"],[],[]];
+
+a[1] = ["2","a"];
+
+a[2] = ["2","wow","z","x","2"];
+
+a[2][3] = "hi";
+
+foreach (string[] b in a)
 {
 
-    Match c = MyRegex().Match(a);
+    foreach (string c in b)
+    {
+        
+        System.Console.WriteLine(c);
+        
+    }
 
-    a = a.Remove(0,c.ToString().Length);
-
-    string b = c.ToString().Replace(",",null).Trim();
-
-    if(string.IsNullOrWhiteSpace(b)) b = "_";
-
-    System.Console.WriteLine(b);
-    
 }
 
-partial class Program
+string[] d = ["changed","woah"];
+
+a[2] = d;
+
+foreach (string[] b in a)
 {
-    [GeneratedRegex(@"(?<Element>,?[^,]+|,?\s*)|(?<NA>.*)?")]
-    private static partial Regex MyRegex();
+
+    foreach (string c in b)
+    {
+        
+        System.Console.WriteLine(c);
+        
+    }
+
 }
