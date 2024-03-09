@@ -80,40 +80,40 @@
 //     private static partial Regex MyRegex();
 // }
 
-string[][] a=[];
+// string[][] a=[];
 
-a = [["2"],[],[]];
+// a = [["2"],[],[]];
 
-a[1] = ["2","a"];
+// a[1] = ["2","a"];
 
-a[2] = ["2","wow","z","x","2"];
+// a[2] = ["2","wow","z","x","2"];
 
-a[2][3] = "hi";
+// a[2][3] = "hi";
 
-foreach (string[] b in a)
-{
+// foreach (string[] b in a)
+// {
 
-    foreach (string c in b)
-    {
+//     foreach (string c in b)
+//     {
         
-        System.Console.WriteLine(c);
+//         System.Console.WriteLine(c);
         
-    }
+//     }
 
-}
+// }
 
-string[] d = ["changed","woah"];
+// string[] d = ["changed","woah"];
 
-a[2] = d;
+// a[2] = d;
 
-foreach (string[] b in a)
-{
+// foreach (string[] b in a)
+// {
 
-    foreach (string c in b)
-    {
+//     foreach (string c in b)
+//     {
         
-        System.Console.WriteLine(c);
+//         System.Console.WriteLine(c);
         
-    }
+//     }
 
-}
+// }
