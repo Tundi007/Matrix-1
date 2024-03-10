@@ -48,7 +48,7 @@ public class Process
         for (int currentColumn_Int = 0; currentColumn_Int < totalRow_Int; currentColumn_Int++)
         {
 
-            SortColumn_Function(augmentedMatrix_StringArray2D);
+            augmentedMatrix_StringArray2D = Sort_Function(augmentedMatrix_StringArray2D);
 
             augmentedMatrix_StringArray2D = Elimination_Function(augmentedMatrix_StringArray2D,currentColumn_Int);
 
