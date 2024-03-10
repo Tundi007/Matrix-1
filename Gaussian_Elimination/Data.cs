@@ -2,7 +2,7 @@ using System.Runtime.ConstrainedExecution;
 
 namespace Gaussian_Elimination;
 
-public interface Data
+public interface IData
 {
 
     private static List<int> relationSetsPrivate_IntList = [];
@@ -38,13 +38,49 @@ public interface Data
         
     }
 
-    public static string[][] GetDataSet_Function(int matrixNumber_Int)
+    private static string[] ShowDataInfo_Function()
     {
+
+        string[] dataLinks_String = new string[relationSetsPrivate_IntList.Count];
+
+        for(int index_Int=0;index_Int<relationSetsPrivate_IntList.Count;index_Int++)
+        {
+
+            dataLinks_String[index_Int] += index_Int+": "+relationSetsPrivate_IntList[index_Int]+"\n";
+
+        }
+
+        return dataLinks_String;
+
+    }
+
+    public static string[][] GetDataString_Function(int matrixNumber_Int)
+    {
+
+        while(true)
+        {
+
+            System.Console.WriteLine("Choose A Data ID:");
+
+            ShowDataInfo_Function();
+
+        }
 
         if(!relationSetsPrivate_IntList.Contains(matrixNumber_Int)) return [["-1"]];
 
         return publicData_StringList2D[relationSetsPrivate_IntList.IndexOf(matrixNumber_Int)];
 
+    }
+
+    public static int[][] GetDataInt_Function(int matrixNumber_Int , int exitCode)
+    {
+
+        if(!relationSetsPrivate_IntList.Contains(matrixNumber_Int)) return [[-1]];
+
+        // return publicData_StringList2D[relationSetsPrivate_IntList.IndexOf(matrixNumber_Int)];
+
+        return[[]];
+        
     }
 
     public static int MakeYourOwnData(bool symmetricRule_Bool)

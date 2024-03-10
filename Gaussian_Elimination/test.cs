@@ -117,3 +117,34 @@
 //     }
 
 // }
+
+string[][] a =[["3"],["1","2"]];
+
+foreach (string[] b in a)
+{
+
+    foreach (string c in b)
+    {
+
+        System.Console.WriteLine(c);
+        
+    }
+
+}
+
+System.Console.WriteLine("-----------");
+
+(a[0],a[1])=(a[1],a[0]);
+
+
+foreach (string[] b in a)
+{
+
+    foreach (string c in b)
+    {
+
+        System.Console.WriteLine(c);
+        
+    }
+
+}

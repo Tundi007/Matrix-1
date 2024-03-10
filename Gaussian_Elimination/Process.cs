@@ -11,7 +11,7 @@ public class Process
     private static void RefrenceData_Function()
     {
 
-        dataListPrivate_StringList2D = Data.GetAllDataSets_Function();
+        dataListPrivate_StringList2D = IData.GetAllDataSets_Function();
 
     }
 
@@ -19,9 +19,9 @@ public class Process
     private static void GaussianElimination_Function(int matrixProblem_Int, int matrixDestination_Int, bool jordanElimination_Bool)
     {
 
-        string[][] baseMatrixProblem_StringArray2D = dataListPrivate_StringList2D[matrixProblem_Int];
+        int[][] baseMatrixProblem_StringArray2D = ;
 
-        string[][] baseMatrixDestination_StringArray2D = dataListPrivate_StringList2D[matrixDestination_Int];        
+        int[][] baseMatrixDestination_StringArray2D;
         
         int totalRow_Int = baseMatrixProblem_StringArray2D.Length;                
 
@@ -35,7 +35,7 @@ public class Process
 
         string[] baseMatrixVariable_StringArray2D = new string[totalRow_Int];
 
-        string[][] augmentedMatrix_StringArray2D = Merger_Function(jordanRule_Int,baseMatrixProblem_StringArray2D,baseMatrixDestination_StringArray2D);        
+        int[][] augmentedMatrix_StringArray2D = Merger_Function(jordanRule_Int,baseMatrixProblem_StringArray2D,baseMatrixDestination_StringArray2D);        
 
         for (int variableNumber_Int = 0; variableNumber_Int < totalRow_Int; variableNumber_Int++)
         {
@@ -54,10 +54,10 @@ public class Process
         
     }
 
-    private static string[][] Merger_Function(int jordanRule_Int, string[][] problem_StringArray2D, string[][] destination_StringArray2D)
+    private static int[][] Merger_Function(int jordanRule_Int, int[][] problem_StringArray2D, int[][] destination_StringArray2D)
     {
 
-        string[][] augmented_StringArray2D = [];
+        int[][] augmented_StringArray2D = [];
 
         int totalRow_Int = problem_StringArray2D.Length;
 
@@ -66,7 +66,7 @@ public class Process
         for(int row_Int = 0; row_Int < totalRow_Int; row_Int++)
         {
 
-            augmented_StringArray2D[row_Int] = new string[totalColumn_Int+1];
+            augmented_StringArray2D[row_Int] = new int[totalColumn_Int+1];
 
             for (int column_Int = 0; column_Int < totalColumn_Int; column_Int++)
             {
@@ -88,20 +88,23 @@ public class Process
 
     }
 
-    private static string[][] Elimination_Function(string[][]augmented_StringArray2D,int currentColumn_Int)
+    private static int[][] Elimination_Function(int[][]augmented_StringArray2D,int currentColumn_Int)
     {
 
         (int totalRow_Int, int totalColumn_Int) = (augmented_StringArray2D.Length,augmented_StringArray2D[0].Length);
 
-        for (int underElement_Int = currentColumn_Int; underElement_Int < totalRow_Int; underElement_Int++)
+        if(augmented_StringArray2D[currentColumn_Int][currentColumn_Int]==0)
         {
 
-            if(augmented_StringArray2D[underElement_Int][currentColumn_Int]=="0")
-            {
+            (augmented_StringArray2D[currentColumn_Int],
+                augmented_StringArray2D[SortColumn_Function(augmented_StringArray2D, currentColumn_Int)])=
+                    (augmented_StringArray2D[SortColumn_Function(augmented_StringArray2D, currentColumn_Int)],
+                        augmented_StringArray2D[currentColumn_Int]);
 
-                augmented_StringArray2D=SortColumn_Function(augmented_StringArray2D, currentColumn_Int);
+        }
 
-            }
+        for (int currentrow_Int = currentColumn_Int; currentrow_Int < totalRow_Int; currentrow_Int++)
+        {            
             
         }
 
@@ -109,26 +112,24 @@ public class Process
 
     }
 
-    private static string[][] SortColumn_Function(string[][]augmented_StringArray2D,int currentColumn_Int)
-    {
+    private static int SortColumn_Function(int[][]augmented_StringArray2D,int currentColumn_Int)
+    {        
 
         int lowestElement_Int = currentColumn_Int; //non-zero
 
         for (int row_int = currentColumn_Int; row_int < augmented_StringArray2D.Length; row_int++)
         {
 
-            if(augmented_StringArray2D[row_int][currentColumn_Int]!="0")
+            if(augmented_StringArray2D[row_int][currentColumn_Int]!=0)
             {
 
                 lowestElement_Int = row_int;
 
             }
-
-            if(augmented_StringArray2D[row_int][currentColumn_Int] < augmented_StringArray2D[lowestElement_Int][currentColumn_Int]){}//should make them int
             
         }
 
-        return[];
+        return lowestElement_Int;
 
     }
 
