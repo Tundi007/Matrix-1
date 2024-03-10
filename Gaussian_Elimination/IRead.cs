@@ -37,7 +37,7 @@ public interface IRead
                 case ConsoleKey.End:
                 {
                     
-                    if(exitCode_String!="") return input_String + exitCode_String;
+                    if(exitCode_String!="") return string.Format(input_String + exitCode_String);
                 
                 }break;
 
@@ -50,7 +50,7 @@ public interface IRead
 
                     stringIndex_Int--;
 
-                    userInterfaceInput_String = input_String[..stringIndex_Int] + "_" +
+                    userInterfaceInput_String = input_String[..stringIndex_Int] + ">." +
                         input_String[stringIndex_Int..];
 
                 }break;
@@ -61,7 +61,7 @@ public interface IRead
 
                     stringIndex_Int++;
 
-                    userInterfaceInput_String = input_String[..stringIndex_Int] + "_" +
+                    userInterfaceInput_String = input_String[..stringIndex_Int] + ">." +
                         input_String[stringIndex_Int..];
 
                 }break;
@@ -73,7 +73,7 @@ public interface IRead
                     
                     input_String = input_String.Remove(stringIndex_Int,1);
 
-                    userInterfaceInput_String = input_String[..stringIndex_Int] + "_" +
+                    userInterfaceInput_String = input_String[..stringIndex_Int] + ">." +
                         input_String[stringIndex_Int..];
                 
                 }break;
@@ -87,20 +87,31 @@ public interface IRead
 
                     stringIndex_Int--;
 
-                    userInterfaceInput_String = input_String[..stringIndex_Int] + "_" +
+                    userInterfaceInput_String = input_String[..stringIndex_Int] + ">." +
                         input_String[stringIndex_Int..];
                     
                 }break;
 
                 default:
                 {
+
+                    if(key_ConsoleKeyInfo.Modifiers!=ConsoleModifiers.None)
+                    {
+ 
+                        System.Console.WriteLine("Sorry For The Inconvinience, But Key Modifiers (shift,ctrl,alt) Are Not Implemented Yet!\nFor Now, Use The Defined Keys To Satisfy Your Typing\nPress Any Key To Contunue");
+
+                        Console.ReadKey();
+                        
+                        break;
+                        
+                    }
                 
                     input_String = input_String[..stringIndex_Int] + key_ConsoleKeyInfo.KeyChar.ToString() +
                         input_String[stringIndex_Int..];
 
                     stringIndex_Int++;
                                     
-                    userInterfaceInput_String = input_String[..stringIndex_Int] + "_" +
+                    userInterfaceInput_String = input_String[..stringIndex_Int] + ">." +
                         input_String[stringIndex_Int..];
                 
                 }break;
@@ -111,11 +122,11 @@ public interface IRead
 
     }
 
-    public static (int,int) KeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString)
+    public static (int,int,string[][]) KeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString2D)
     {
 
-        (int menuPointerRow_Int, int menuPointerColumn_Int,string hint_String) =
-            (1,1,"Use Arrow Keys To Navigate, \"Enter\" To Select,  \"Delete\" To Eliminate The Element, \"E\" To Replace Element With New Value");
+        (int menuPointerRow_Int, int menuPointerColumn_Int,string hint_String,string[][] backup_ArrayString2D) =
+            (1,1,"Use Arrow Keys To Navigate, \"Enter\" To Select,  \"Delete\" To Eliminate The Element, \"E\" To Replace Element With New Value",menuItems_ArrayString2D);
 
         while(true)
         {
@@ -124,7 +135,7 @@ public interface IRead
 
             System.Console.WriteLine(menuStatic_String);
             
-            ShowMenu_Function(menuItems_ArrayString, menuPointerRow_Int, menuPointerColumn_Int);
+            ShowMenu_Function(menuItems_ArrayString2D, menuPointerRow_Int, menuPointerColumn_Int,-1);//show columns on line 1, show rows with each cw
 
             System.Console.WriteLine(hint_String);
 
@@ -134,9 +145,9 @@ public interface IRead
             switch (Console.ReadKey(false).Key)
             {
 
-                case ConsoleKey.Enter: Console.Clear(); return (menuPointerRow_Int,menuPointerColumn_Int);
+                case ConsoleKey.Enter: Console.Clear(); return (menuPointerRow_Int,menuPointerColumn_Int,menuItems_ArrayString2D);
 
-                case ConsoleKey.Escape: Console.Clear(); return (-1,-1);
+                case ConsoleKey.Escape: Console.Clear(); return (-1,-1,menuItems_ArrayString2D);
 
                 case ConsoleKey.LeftArrow:
                 {
@@ -149,7 +160,7 @@ public interface IRead
 
                 case ConsoleKey.RightArrow:{
                  
-                    if(menuPointerColumn_Int >= menuItems_ArrayString[menuPointerRow_Int].Length)break;
+                    if(menuPointerColumn_Int >= menuItems_ArrayString2D[menuPointerRow_Int].Length)break;
 
                     menuPointerColumn_Int++;
 
@@ -161,33 +172,33 @@ public interface IRead
 
                     menuPointerRow_Int--;
 
-                    if(menuItems_ArrayString[menuPointerRow_Int].Length<menuPointerColumn_Int)menuPointerColumn_Int = menuItems_ArrayString[menuPointerRow_Int].Length;
+                    if(menuItems_ArrayString2D[menuPointerRow_Int].Length<menuPointerColumn_Int)menuPointerColumn_Int = menuItems_ArrayString2D[menuPointerRow_Int].Length;
 
                 }break;
 
                 case ConsoleKey.DownArrow:{
                  
-                    if(menuPointerRow_Int >= menuItems_ArrayString.Length)break;
+                    if(menuPointerRow_Int >= menuItems_ArrayString2D.Length)break;
 
                     menuPointerRow_Int++;
 
-                    if(menuItems_ArrayString[menuPointerRow_Int].Length<menuPointerColumn_Int)menuPointerColumn_Int = menuItems_ArrayString[menuPointerRow_Int].Length;
+                    if(menuItems_ArrayString2D[menuPointerRow_Int].Length<menuPointerColumn_Int)menuPointerColumn_Int = menuItems_ArrayString2D[menuPointerRow_Int].Length;
 
                 }break;
 
                 case ConsoleKey.Delete:
                 {
                     
-                    menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int] = "_";
+                    menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int] = "_";
                     
                 }break;
 
                 case ConsoleKey.E:
                 {
 
-                    int stringIndex_Int = menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int].Length;
+                    int stringIndex_Int = menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int].Length;
 
-                    string backupElement_String = menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int];
+                    string backupElement_String = menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int];
 
                     bool renameProcess_Bool = true;
 
@@ -202,7 +213,7 @@ public interface IRead
 
                         System.Console.WriteLine(menuStatic_String);
                         
-                        ShowMenu_Function(menuItems_ArrayString, menuPointerRow_Int, menuPointerColumn_Int, stringIndex_Int);
+                        ShowMenu_Function(menuItems_ArrayString2D, menuPointerRow_Int, menuPointerColumn_Int, stringIndex_Int);
                         
                         System.Console.WriteLine(innerHint_String);
 
@@ -219,7 +230,7 @@ public interface IRead
                             case ConsoleKey.Escape:
                             {
                                 
-                                menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int] = backupElement_String;
+                                menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int] = backupElement_String;
 
                                 renameProcess_Bool = false;
                             
@@ -236,7 +247,7 @@ public interface IRead
 
                             case ConsoleKey.RightArrow:{
                             
-                                if(stringIndex_Int >= menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int].Length)break;
+                                if(stringIndex_Int >= menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int].Length)break;
 
                                 stringIndex_Int++;
 
@@ -246,11 +257,11 @@ public interface IRead
                             {                    
 
                                 if(stringIndex_Int >=
-                                    menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int]
+                                    menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int]
                                         .Length)break;
                                 
-                                menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int] =
-                                    menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int]
+                                menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int] =
+                                    menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int]
                                         .Remove(stringIndex_Int,1);
                             
                             }break;
@@ -260,8 +271,8 @@ public interface IRead
 
                                 if (stringIndex_Int < 1)break;
                                     
-                                menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int] =
-                                    menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int]
+                                menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int] =
+                                    menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int]
                                         .Remove(stringIndex_Int-1,1);
 
                                 stringIndex_Int--;
@@ -271,10 +282,10 @@ public interface IRead
                             default:
                             {
                             
-                                menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int] =
-                                    menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int][..stringIndex_Int] +
+                                menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int] =
+                                    menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int][..stringIndex_Int] +
                                         key_ConsoleKeyInfo.KeyChar.ToString() +
-                                            menuItems_ArrayString[menuPointerRow_Int][menuPointerColumn_Int][stringIndex_Int..];
+                                            menuItems_ArrayString2D[menuPointerRow_Int][menuPointerColumn_Int][stringIndex_Int..];
 
                                 stringIndex_Int++;
                             
@@ -297,54 +308,44 @@ public interface IRead
 
     }
 
-    private static void ShowMenu_Function(string[][] menuItems_ArrayString, int menuPointerRow_Int, int menuPointerColumn_Int, int stringIndex_Int)
+    private static void ShowMenu_Function(string[][] menuItems_ArrayString2D, int menuPointerRow_Int, int menuPointerColumn_Int, int stringIndex_Int)
     {
 
-        for(int rowNumber_Int = 0 ; rowNumber_Int < menuItems_ArrayString.Length ; rowNumber_Int++)
+        string index_String = ">.";
+
+        if(stringIndex_Int==-1)
         {
 
-            for(int columnNumber_Int = 0 ; columnNumber_Int < menuItems_ArrayString[rowNumber_Int].Length ; columnNumber_Int++)
-            {
-
-                if(rowNumber_Int == menuPointerRow_Int && columnNumber_Int == menuPointerColumn_Int)
-                {
-
-                    System.Console.Write($"->{menuItems_ArrayString[rowNumber_Int][columnNumber_Int][..stringIndex_Int]+ "_" +
-                        menuItems_ArrayString[rowNumber_Int][columnNumber_Int][stringIndex_Int..]}<- ");
-
-                }else
-                {
-
-                    System.Console.Write($"{menuItems_ArrayString[rowNumber_Int][columnNumber_Int]} ");
-
-                }
-
-            }
-
-            System.Console.WriteLine();
+            index_String = "";
 
         }
 
-    }
-
-    private static void ShowMenu_Function(string[][] menuItems_ArrayString, int menuPointerRow_Int, int menuPointerColumn_Int)
-    {
-
-        for(int rowNumber_Int = 0 ; rowNumber_Int < menuItems_ArrayString.GetUpperBound(0) ; rowNumber_Int++)
+        for (var column_Int = 0; column_Int < menuItems_ArrayString2D.Length; column_Int++)
         {
 
-            for(int columnNumber_Int = 0 ; columnNumber_Int < menuItems_ArrayString[rowNumber_Int].GetUpperBound(0) ; columnNumber_Int++)
+            System.Console.Write(column_Int);
+            
+        }
+
+        System.Console.WriteLine();
+
+        for(int rowNumber_Int = 0 ; rowNumber_Int < menuItems_ArrayString2D.Length ; rowNumber_Int++)
+        {
+
+            System.Console.Write($"{rowNumber_Int+1}: ");
+
+            for(int columnNumber_Int = 0 ; columnNumber_Int < menuItems_ArrayString2D[rowNumber_Int].Length ; columnNumber_Int++)
             {
 
                 if(rowNumber_Int == menuPointerRow_Int && columnNumber_Int == menuPointerColumn_Int)
                 {
 
-                    System.Console.Write($"->{menuItems_ArrayString[rowNumber_Int][columnNumber_Int]}<- ");
+                    System.Console.Write($">{menuItems_ArrayString2D[rowNumber_Int][columnNumber_Int][..stringIndex_Int]}{index_String}{menuItems_ArrayString2D[rowNumber_Int][columnNumber_Int][stringIndex_Int..]}< , ");
 
                 }else
                 {
 
-                    System.Console.Write($"{menuItems_ArrayString[rowNumber_Int][columnNumber_Int]} ");
+                    System.Console.Write($"{menuItems_ArrayString2D[rowNumber_Int][columnNumber_Int]} , ");
 
                 }
 

@@ -32,39 +32,53 @@ public interface IData
         get
         {
 
-            return publicData_StringList2D;
+            return dataPrivate_StringList2D;
 
         }
         
     }
 
-    private static string[] ShowDataInfo_Function()
+    private static void SelectDataInfo_Function()
+    {}
+
+    private static int ShowDataInfo_Function()
     {
 
-        string[] dataLinks_String = new string[relationSetsPrivate_IntList.Count];
+        while(true){
 
-        for(int index_Int=0;index_Int<relationSetsPrivate_IntList.Count;index_Int++)
-        {
+            string[][] a = dataPrivate_StringList2D[0];
 
-            dataLinks_String[index_Int] += index_Int+": "+relationSetsPrivate_IntList[index_Int]+"\n";
+            string[][] dataLinks_String = [new string[relationSetsPrivate_IntList.Count]];
+        
+            for (int index_Int=0;index_Int<relationSetsPrivate_IntList.Count;index_Int++)
+            {
 
+                dataLinks_String[0][index_Int] += index_Int+": "+relationSetsPrivate_IntList[index_Int]+"\n";
+
+            }
+
+            (int dataIndex_Int,_,_) = IRead.KeyMenu_Function("Choose A Data ID:",dataLinks_String);
+
+            foreach(string[] selectedData_StringArray2D in publicData_StringList2D[0])
+            {
+
+                System.Console.WriteLine(selectedData_StringArray2D);
+
+            }
+
+            return dataIndex_Int;
+            
         }
-
-        return dataLinks_String;
 
     }
 
     public static string[][] GetDataString_Function(int matrixNumber_Int)
     {
 
-        while(true)
-        {
+        System.Console.WriteLine("Choose A Data ID:");
 
-            System.Console.WriteLine("Choose A Data ID:");
+        ShowDataInfo_Function();
 
-            ShowDataInfo_Function();
-
-        }
 
         if(!relationSetsPrivate_IntList.Contains(matrixNumber_Int)) return [["-1"]];
 
@@ -72,7 +86,7 @@ public interface IData
 
     }
 
-    public static int[][] GetDataInt_Function(int matrixNumber_Int , int exitCode)
+    public static int[][] GetDataInt_Function(int matrixNumber_Int)
     {
 
         if(!relationSetsPrivate_IntList.Contains(matrixNumber_Int)) return [[-1]];
@@ -174,7 +188,7 @@ public interface IData
 
         }        
 
-        if(relationSetsPrivate_IntList.Contains(dataID_Int))dataID_Int++;
+        while(relationSetsPrivate_IntList.Contains(dataID_Int))dataID_Int++;
 
         relationSetsPrivate_IntList.Add(dataID_Int);
 

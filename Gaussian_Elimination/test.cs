@@ -71,7 +71,7 @@
 //     if(string.IsNullOrWhiteSpace(b)) b = "_";
 
 //     System.Console.WriteLine(b);
-    
+
 // }
 
 // partial class Program
@@ -95,9 +95,9 @@
 
 //     foreach (string c in b)
 //     {
-        
+
 //         System.Console.WriteLine(c);
-        
+
 //     }
 
 // }
@@ -111,40 +111,77 @@
 
 //     foreach (string c in b)
 //     {
-        
+
 //         System.Console.WriteLine(c);
-        
+
 //     }
 
 // }
 
-string[][] a =[["3"],["1","2"]];
+// string[][] a =[["3"],["1","2"]];
 
-foreach (string[] b in a)
+// foreach (string[] b in a)
+// {
+
+//     foreach (string c in b)
+//     {
+
+//         System.Console.WriteLine(c);
+
+//     }
+
+// }
+
+// System.Console.WriteLine("-----------");
+
+// (a[0],a[1])=(a[1],a[0]);
+
+
+// foreach (string[] b in a)
+// {
+
+//     foreach (string c in b)
+//     {
+
+//         System.Console.WriteLine(c);
+
+//     }
+
+// }
+
+// Action<string> messageTarget;
+
+// string? input = Console.ReadLine();
+
+// input??="";
+
+// if (input.Length > 5) messageTarget = ShowWindowsMessage;
+// else messageTarget = Console.WriteLine;
+
+// messageTarget(input);
+   
+// static void ShowWindowsMessage(string message)
+// {
+
+// System.Console.WriteLine(message + " is longer than 5 characters!");
+
+// }
+
+int[] a = [1,2,3,4,5,1,0,6,11];
+
+int multiplier_Int = -1/2;
+
+int count_Int = 0;
+
+Array.ForEach(a,delegate(int element_Int)
 {
 
-    foreach (string c in b)
-    {
+    System.Console.WriteLine(a[count_Int]);
 
-        System.Console.WriteLine(c);
-        
-    }
+    a[count_Int] = element_Int=element_Int*multiplier_Int;
 
-}
+    System.Console.WriteLine(a[count_Int]);
 
-System.Console.WriteLine("-----------");
+    count_Int++;
 
-(a[0],a[1])=(a[1],a[0]);
-
-
-foreach (string[] b in a)
-{
-
-    foreach (string c in b)
-    {
-
-        System.Console.WriteLine(c);
-        
-    }
-
-}
+});

@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Reflection.Emit;
 using MathNet.Numerics;
 using MathNet.Symbolics;
 namespace Gaussian_Elimination;
@@ -19,9 +20,9 @@ public class Process
     private static void GaussianElimination_Function(int matrixProblem_Int, int matrixDestination_Int, bool jordanElimination_Bool)
     {
 
-        int[][] baseMatrixProblem_StringArray2D = ;
+        int[][] baseMatrixProblem_StringArray2D = [];//needs initialization
 
-        int[][] baseMatrixDestination_StringArray2D;
+        int[][] baseMatrixDestination_StringArray2D = [];//needs initialization
         
         int totalRow_Int = baseMatrixProblem_StringArray2D.Length;                
 
@@ -46,6 +47,8 @@ public class Process
 
         for (int currentColumn_Int = 0; currentColumn_Int < totalRow_Int; currentColumn_Int++)
         {
+
+            SortColumn_Function(augmentedMatrix_StringArray2D);
 
             augmentedMatrix_StringArray2D = Elimination_Function(augmentedMatrix_StringArray2D,currentColumn_Int);
 
@@ -91,20 +94,25 @@ public class Process
     private static int[][] Elimination_Function(int[][]augmented_StringArray2D,int currentColumn_Int)
     {
 
-        (int totalRow_Int, int totalColumn_Int) = (augmented_StringArray2D.Length,augmented_StringArray2D[0].Length);
+        int totalRow_Int = augmented_StringArray2D.Length;
 
-        if(augmented_StringArray2D[currentColumn_Int][currentColumn_Int]==0)
+
+        for(int currentrow_Int = currentColumn_Int+1; currentrow_Int < totalRow_Int; currentrow_Int++)
         {
 
-            (augmented_StringArray2D[currentColumn_Int],
-                augmented_StringArray2D[SortColumn_Function(augmented_StringArray2D, currentColumn_Int)])=
-                    (augmented_StringArray2D[SortColumn_Function(augmented_StringArray2D, currentColumn_Int)],
-                        augmented_StringArray2D[currentColumn_Int]);
+            if(augmented_StringArray2D[currentrow_Int][currentColumn_Int] != 0)
+            {
 
-        }
+                int multiplier_Int = augmented_StringArray2D[currentColumn_Int][currentColumn_Int]/augmented_StringArray2D[currentrow_Int][currentColumn_Int];
 
-        for (int currentrow_Int = currentColumn_Int; currentrow_Int < totalRow_Int; currentrow_Int++)
-        {            
+                Array.ForEach(augmented_StringArray2D[currentrow_Int],delegate(int element_Int)
+                {
+                    
+                    augmented_StringArray2D[currentColumn_Int][currentColumn_Int] = element_Int;
+                    
+                });
+                
+            }
             
         }
 
@@ -112,24 +120,72 @@ public class Process
 
     }
 
-    private static int SortColumn_Function(int[][]augmented_StringArray2D,int currentColumn_Int)
-    {        
+    private static int[]SortColumn_Function(int[][]augmented_StringArray2D, int currentRow_Int)
+    {
 
-        int lowestElement_Int = currentColumn_Int; //non-zero
-
-        for (int row_int = currentColumn_Int; row_int < augmented_StringArray2D.Length; row_int++)
+        for(int nextRow_Int = 0; nextRow_Int < augmented_StringArray2D.Length; nextRow_Int++)
         {
 
-            if(augmented_StringArray2D[row_int][currentColumn_Int]!=0)
+            if(augmented_StringArray2D[currentRow_Int][currentRow_Int] == (1|-1))break;
+
+            if(
+                augmented_StringArray2D[nextRow_Int][currentRow_Int] != 0 &
+                (
+                    augmented_StringArray2D[currentRow_Int][currentRow_Int] == 0 |
+                    (
+                        augmented_StringArray2D[currentRow_Int][currentRow_Int] > augmented_StringArray2D[nextRow_Int][currentRow_Int] &
+                            -augmented_StringArray2D[nextRow_Int][currentRow_Int]>augmented_StringArray2D[currentRow_Int][currentRow_Int]
+                    )
+                )
+            )
             {
 
-                lowestElement_Int = row_int;
+
+                            
+            }
+
+        }       
+
+        return [];
+
+    }
+
+    private static int[][] Sort_Function(int[][]augmented_StringArray2D)
+    {   
+
+        for (int row_Int = 0; row_Int < augmented_StringArray2D.Length; row_Int++)
+        {
+
+            bool diagonalIsZero_Bool = augmented_StringArray2D[row_Int][row_Int]==0;
+
+            if(augmented_StringArray2D[row_Int][row_Int] == (1|-1))goto Found;
+
+            int[]availableRows_Int = SortColumn_Function(augmented_StringArray2D,row_Int);
+
+            foreach (int nextRow_Int in availableRows_Int)
+            {
+
+                if(augmented_StringArray2D[row_Int][row_Int] == (1|-1))break;
+
+                if(augmented_StringArray2D[row_Int][nextRow_Int] != 0 | diagonalIsZero_Bool)
+                {
+
+                    diagonalIsZero_Bool = false;
+                    
+                    (augmented_StringArray2D[row_Int],
+                        augmented_StringArray2D[nextRow_Int])=
+                            (augmented_StringArray2D[nextRow_Int],
+                                augmented_StringArray2D[row_Int]);
+                                
+                }
 
             }
-            
+
+            Found:;
+
         }
 
-        return lowestElement_Int;
+        return augmented_StringArray2D;
 
     }
 
