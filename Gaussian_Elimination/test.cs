@@ -159,29 +159,22 @@
 // else messageTarget = Console.WriteLine;
 
 // messageTarget(input);
-   
+
 // static void ShowWindowsMessage(string message)
 // {
 
 // System.Console.WriteLine(message + " is longer than 5 characters!");
 
-// }
+using System.Security.Cryptography;
 
-int[] a = [1,2,3,4,5,1,0,6,11];
+string a = RandomNumberGenerator.GetInt32(65355).ToString();
 
-int multiplier_Int = -1/2;
+string b="";
 
-int count_Int = 0;
-
-Array.ForEach(a,delegate(int element_Int)
+if((b=IRead.KeyToLine_Function(a)).Contains(a))
 {
+    return;
 
-    System.Console.WriteLine(a[count_Int]);
+}
 
-    a[count_Int] = element_Int=element_Int*multiplier_Int;
-
-    System.Console.WriteLine(a[count_Int]);
-
-    count_Int++;
-
-});
+System.Console.WriteLine(b);
