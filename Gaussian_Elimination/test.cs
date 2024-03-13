@@ -165,16 +165,16 @@
 
 // System.Console.WriteLine(message + " is longer than 5 characters!");
 
-using System.Security.Cryptography;
+// using System.Security.Cryptography;
 
-string a = RandomNumberGenerator.GetInt32(65355).ToString();
+// string a = RandomNumberGenerator.GetInt32(65355).ToString();
 
-string b="";
+// string b="";
 
-if((b=IRead.KeyToLine_Function(a)).Contains(a))
-{
-    return;
+// if((b=IRead.KeyToLine_Function(a)).Contains(a))
+// {
+//     return;
 
-}
+// }
 
-System.Console.WriteLine(b);
+// System.Console.WriteLine(b);

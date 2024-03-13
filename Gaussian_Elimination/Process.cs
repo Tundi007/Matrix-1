@@ -1,7 +1,3 @@
-using System.Numerics;
-using System.Reflection.Emit;
-using MathNet.Numerics;
-using MathNet.Symbolics;
 namespace Gaussian_Elimination;
 
 public class Process
@@ -9,7 +5,7 @@ public class Process
 
     private static List<string[][]> dataListPrivate_StringList2D = [];
 
-    private static void RefrenceData_Function()
+    private static void FreshData_Function()
     {
 
         dataListPrivate_StringList2D = IData.GetAllDataSets_Function();
@@ -17,8 +13,10 @@ public class Process
     }
 
 
-    private static void GaussianElimination_Function(int matrixProblem_Int, int matrixDestination_Int, bool jordanElimination_Bool)
+    private static void GaussianElimination_Function(int problemDataIndex_Int, int problemDestinationIndex_Int, bool jordanElimination_Bool)
     {
+
+        FreshData_Function();
 
         int[][] baseMatrixProblem_StringArray2D = [];//needs initialization
 
@@ -45,10 +43,10 @@ public class Process
             
         }
 
+        augmentedMatrix_StringArray2D = Sort_Function(augmentedMatrix_StringArray2D);
+
         for (int currentColumn_Int = 0; currentColumn_Int < totalRow_Int; currentColumn_Int++)
         {
-
-            augmentedMatrix_StringArray2D = Sort_Function(augmentedMatrix_StringArray2D);
 
             augmentedMatrix_StringArray2D = Elimination_Function(augmentedMatrix_StringArray2D,currentColumn_Int);
 
@@ -123,30 +121,28 @@ public class Process
     private static int[]SortColumn_Function(int[][]augmented_StringArray2D, int currentRow_Int)
     {
 
+        int[] availableRows_Int = new int[augmented_StringArray2D.Length];
+
+        int countRows_Int = 0;
+
         for(int nextRow_Int = 0; nextRow_Int < augmented_StringArray2D.Length; nextRow_Int++)
         {
 
-            if(augmented_StringArray2D[currentRow_Int][currentRow_Int] == (1|-1))break;
-
-            if(
-                augmented_StringArray2D[nextRow_Int][currentRow_Int] != 0 &
-                (
-                    augmented_StringArray2D[currentRow_Int][currentRow_Int] == 0 |
-                    (
-                        augmented_StringArray2D[currentRow_Int][currentRow_Int] > augmented_StringArray2D[nextRow_Int][currentRow_Int] &
-                            -augmented_StringArray2D[nextRow_Int][currentRow_Int]>augmented_StringArray2D[currentRow_Int][currentRow_Int]
-                    )
-                )
-            )
+            if(augmented_StringArray2D[nextRow_Int][currentRow_Int] != 0 &
+                (augmented_StringArray2D[currentRow_Int][currentRow_Int] == 0 |
+                    (augmented_StringArray2D[currentRow_Int][currentRow_Int] > augmented_StringArray2D[nextRow_Int][currentRow_Int] &
+                            -augmented_StringArray2D[nextRow_Int][currentRow_Int]>augmented_StringArray2D[currentRow_Int][currentRow_Int])))
             {
 
+                availableRows_Int[countRows_Int] = nextRow_Int;
 
-                            
+                countRows_Int++;
+                        
             }
 
         }       
 
-        return [];
+        return availableRows_Int;
 
     }
 
@@ -156,41 +152,38 @@ public class Process
         for (int row_Int = 0; row_Int < augmented_StringArray2D.Length; row_Int++)
         {
 
-            bool diagonalIsZero_Bool = augmented_StringArray2D[row_Int][row_Int]==0;
+            bool diagonalIsZero_Bool = augmented_StringArray2D[row_Int][row_Int] == 0;
 
-            if(augmented_StringArray2D[row_Int][row_Int] == (1|-1))goto Found;
-
-            int[]availableRows_Int = SortColumn_Function(augmented_StringArray2D,row_Int);
-
-            foreach (int nextRow_Int in availableRows_Int)
+            if(augmented_StringArray2D[row_Int][row_Int] != 1 & augmented_StringArray2D[row_Int][row_Int] != -1)
             {
 
-                if(augmented_StringArray2D[row_Int][row_Int] == (1|-1))break;
+                int[]availableRows_Int = SortColumn_Function(augmented_StringArray2D,row_Int);
 
-                if(augmented_StringArray2D[row_Int][nextRow_Int] != 0 | diagonalIsZero_Bool)
+                foreach (int nextRow_Int in availableRows_Int)
                 {
 
-                    diagonalIsZero_Bool = false;
-                    
-                    (augmented_StringArray2D[row_Int],
-                        augmented_StringArray2D[nextRow_Int])=
-                            (augmented_StringArray2D[nextRow_Int],
-                                augmented_StringArray2D[row_Int]);
-                                
+                    if(augmented_StringArray2D[row_Int][row_Int] == (1|-1))break;
+
+                    if(augmented_StringArray2D[row_Int][nextRow_Int] != 0 | diagonalIsZero_Bool)
+                    {
+
+                        diagonalIsZero_Bool = false;
+                        
+                        (augmented_StringArray2D[row_Int],
+                            augmented_StringArray2D[nextRow_Int])=
+                                (augmented_StringArray2D[nextRow_Int],
+                                    augmented_StringArray2D[row_Int]);
+                                    
+                    }
+
                 }
 
             }
-
-            Found:;
 
         }
 
         return augmented_StringArray2D;
 
     }
-
-
-
-    private static void _Function(){}
 
 }
