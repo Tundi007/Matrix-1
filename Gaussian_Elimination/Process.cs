@@ -117,35 +117,20 @@ public class Process
 
     static int[][] Sort_Function(int[][]augmented_StringArray2D)
     {
-        //length of array
 
         int arrayLength_Int = augmented_StringArray2D.Length;
 
-        //final sorted augmented array
-
         int[][] sortedAugmented_IntArray2D = new int[arrayLength_Int][];
-
-        //first index = augmented row, second index = augmented row, value = dependency of [first row] on [second row]
 
         int[][] availableRows_IntArray2D = new int[arrayLength_Int][];
 
-        //rows
-
         List<int> rows_IntList =[];
-
-        //index = augmented row, value = number of available options
 
         List<int> rowsChoices_IntList = [];
 
-        //index = no meaning, value = index of augmented row
-
         List<int> sortedRows_IntList = []; 
 
-        //index = no meaning, value = index of augmented row
-
         List<int> usedRows_IntList = []; 
-
-        // Initializing
 
         for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
         {
@@ -162,42 +147,24 @@ public class Process
             
         }
 
-        //Checking The Options For Each Row
-
         for(int currentRow_Int = 0; currentRow_Int<arrayLength_Int; currentRow_Int++) 
         {   
 
-            //value of current diagonal (main) element
-
             int diagonalElement_int = augmented_StringArray2D[currentRow_Int][currentRow_Int];
 
-            //keeping the element value in natural numbers
-
             if(diagonalElement_int<0)diagonalElement_int =- diagonalElement_int;
-
-            //Checking Possible Chocies After Below The Current Diagonal Element
 
             for(int nextRow_Int = currentRow_Int+1; nextRow_Int < arrayLength_Int; nextRow_Int++)
             {        
 
-                //keeping the value of the element below
-
                 int option_Int= augmented_StringArray2D[nextRow_Int][currentRow_Int];
 
-                //keeping the element value in natural numbers
-
                 if(option_Int<0)option_Int =- option_Int;
-
-                //Checking Rule Set Of Swaping
 
                 if(option_Int != 0 & (diagonalElement_int == 0 | diagonalElement_int > option_Int))
                 {
 
-                    //Calculating Sum Of [Row i] = How Many Other Rows Can [Row i] Swap With
-
                     rowsChoices_IntList[currentRow_Int]++;
-
-                    //setting eligibility of swapping current row with the row below
                         
                     availableRows_IntArray2D[currentRow_Int][nextRow_Int] = 1;
                                         
@@ -205,30 +172,18 @@ public class Process
 
             }
 
-            //Also Checking Possible Chocies Before The Current Diagonal Element
-
             for(int previousRow_Int = currentRow_Int-1; previousRow_Int > -1; previousRow_Int--) 
             {
 
-                //keeping the value of the element below
-
                 int option_Int = augmented_StringArray2D[previousRow_Int][currentRow_Int];
-
-                //keeping the element value in natural numbers
 
                 if(option_Int < 0)option_Int =- option_Int;
 
-                //Checking Rule Set Of Swaping
-                
                 if(option_Int != 0 &(diagonalElement_int == 0 | diagonalElement_int > option_Int))
                 {
 
-                    //Calculating Sum Of [Row i] = How Many Other Rows Can [Row i] Swap With
-
                     rowsChoices_IntList[currentRow_Int]++;
 
-                    //eligibility of swapping current row with the row below
-                    
                     availableRows_IntArray2D[currentRow_Int][previousRow_Int] = 1;
                     
                 }
