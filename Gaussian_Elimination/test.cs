@@ -176,278 +176,227 @@
 //     return;
 
 // }
-
-int [][] augmented_StringArray2D = [[3,2,1,0,5,2,1],[-2,0,1,0,3,32,11],[1,32,51,67,31,6,1],[10,12,11,0,5,22,5],[1,0,1,-1,1,1,1],[8,3,1,2,2,3,5],[3,0,0,1,5,2,1]];
-
-//length of array
-
-int arrayLength_Int = augmented_StringArray2D.Length;
-
-//first index = augmented row, second index = augmented row, value = dependency of [first row] on [second row]
-
-int[][] availableRows_IntArray2D = new int[arrayLength_Int][];
-
-//array of processed rows
-
-int[] processedRows_IntArray = new int[arrayLength_Int];
-
-//final sorted augmented array
-
-int[][] sortedAugmented_IntArray2D = new int[arrayLength_Int][];
-
-//index = augmented row, value = number of available options
-
-List<int> rowsChoices_IntList = [];
-
-//index = augmented row, value = number of dependent rows
-
-List<int> rowsDependencies_IntList = []; 
-
-// Initializing
-
-for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
 {
+    int [][] augmented_StringArray2D = [[-2,2,2,0,1,2,2],[2,2,2,0,2,2,2],[2,2,1,-2,2,2,2],[1,2,2,2,2,2,2],[-2,2,2,2,2,2,1],[2,0,2,2,2,2,2],[2,2,2,2,2,-1,2]];
 
-    rowsDependencies_IntList.Add(0);
+    //length of array
 
-    rowsChoices_IntList.Add(0);
+    int arrayLength_Int = augmented_StringArray2D.Length;
 
-    sortedAugmented_IntArray2D[row_Int] = new int[arrayLength_Int];
+    //final sorted augmented array
 
-    availableRows_IntArray2D[row_Int] = new int[arrayLength_Int];
-    
-}
+    int[][] sortedAugmented_IntArray2D = new int[arrayLength_Int][];
 
-//Checking The Options For Each Row
+    //first index = augmented row, second index = augmented row, value = dependency of [first row] on [second row]
 
-for(int currentRow_Int = 0; currentRow_Int<arrayLength_Int; currentRow_Int++) 
-{   
+    int[][] availableRows_IntArray2D = new int[arrayLength_Int][];
 
-    //value of current diagonal (main) element
+    //rows
 
-    int diagonalElement_int = augmented_StringArray2D[currentRow_Int][currentRow_Int];
+    List<int> rows_IntList =[];
 
-    //keeping the element value in natural numbers
+    //index = augmented row, value = number of available options
 
-    if(diagonalElement_int<0)diagonalElement_int =- diagonalElement_int;
+    List<int> rowsChoices_IntList = [];
 
-    //Checking Possible Chocies After Below The Current Diagonal Element
+    //index = no meaning, value = index of augmented row
 
-    for(int nextRow_Int = currentRow_Int+1; nextRow_Int < arrayLength_Int; nextRow_Int++)
-    {        
+    List<int> sortedRows_IntList = []; 
 
-        //keeping the value of the element below
+    //index = no meaning, value = index of augmented row
 
-        int option_Int= augmented_StringArray2D[nextRow_Int][currentRow_Int];
+    List<int> usedRows_IntList = []; 
+
+    // Initializing
+
+    for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
+    {
+
+        sortedRows_IntList.Add(-1);
+
+        rows_IntList.Add(row_Int);
+
+        rowsChoices_IntList.Add(0);
+
+        sortedAugmented_IntArray2D[row_Int] = new int[arrayLength_Int];
+
+        availableRows_IntArray2D[row_Int] = new int[arrayLength_Int];
+        
+    }
+
+    //Checking The Options For Each Row
+
+    for(int currentRow_Int = 0; currentRow_Int<arrayLength_Int; currentRow_Int++) 
+    {   
+
+        //value of current diagonal (main) element
+
+        int diagonalElement_int = augmented_StringArray2D[currentRow_Int][currentRow_Int];
 
         //keeping the element value in natural numbers
 
-        if(option_Int<0)option_Int =- option_Int;
+        if(diagonalElement_int<0)diagonalElement_int =- diagonalElement_int;
 
-        //Checking Rule Set Of Swaping
+        //Checking Possible Chocies After Below The Current Diagonal Element
 
-        if(option_Int != 0 & (diagonalElement_int == 0 | diagonalElement_int > option_Int))
+        for(int nextRow_Int = currentRow_Int+1; nextRow_Int < arrayLength_Int; nextRow_Int++)
+        {        
+
+            //keeping the value of the element below
+
+            int option_Int= augmented_StringArray2D[nextRow_Int][currentRow_Int];
+
+            //keeping the element value in natural numbers
+
+            if(option_Int<0)option_Int =- option_Int;
+
+            //Checking Rule Set Of Swaping
+
+            if(option_Int != 0 & (diagonalElement_int == 0 | diagonalElement_int > option_Int))
+            {
+
+                //Calculating Sum Of [Row i] = How Many Other Rows Can [Row i] Swap With
+
+                rowsChoices_IntList[currentRow_Int]++;
+
+                //setting eligibility of swapping current row with the row below
+                    
+                availableRows_IntArray2D[currentRow_Int][nextRow_Int] = 1;
+                                    
+            }
+
+        }
+
+        //Also Checking Possible Chocies Before The Current Diagonal Element
+
+        for(int previousRow_Int = currentRow_Int-1; previousRow_Int > -1; previousRow_Int--) 
         {
 
-            //Calculating Sum Of [Row i] = How Many Other Rows Can [Row i] Swap With
+            //keeping the value of the element below
 
-            rowsChoices_IntList[currentRow_Int]++;
+            int option_Int = augmented_StringArray2D[previousRow_Int][currentRow_Int];
 
-            //setting eligibility of swapping current row with the row below
+            //keeping the element value in natural numbers
+
+            if(option_Int < 0)option_Int =- option_Int;
+
+            //Checking Rule Set Of Swaping
+            
+            if(diagonalElement_int == 0 | diagonalElement_int > option_Int)
+            {
+
+                //Calculating Sum Of [Row i] = How Many Other Rows Can [Row i] Swap With
+
+                rowsChoices_IntList[currentRow_Int]++;
+
+                //eligibility of swapping current row with the row below
                 
-            availableRows_IntArray2D[currentRow_Int][nextRow_Int] = 1;
-                                
+                availableRows_IntArray2D[currentRow_Int][previousRow_Int] = 1;
+                
+            }
+
         }
 
     }
 
-    //Also Checking Possible Chocies Before The Current Diagonal Element
+    AssessMatrix_Function(availableRows_IntArray2D,out rowsChoices_IntList);
 
-    for(int previousRow_Int = currentRow_Int-1; previousRow_Int > -1; previousRow_Int--) 
+    Console.Clear();
+
+    Show_Function(availableRows_IntArray2D,rowsChoices_IntList,true);
+
+    for(int process_Int = 0; process_Int<arrayLength_Int; process_Int++)
     {
 
-        //keeping the value of the element below
-
-        int option_Int = augmented_StringArray2D[previousRow_Int][currentRow_Int];
-
-        //keeping the element value in natural numbers
-
-        if(option_Int < 0)option_Int =- option_Int;
-
-        //Checking Rule Set Of Swaping
+        int lowestChoiceIndex_Int = rowsChoices_IntList.IndexOf(rowsChoices_IntList.Where(x => x != 0).DefaultIfEmpty(-1).Min());
         
-        if(diagonalElement_int == 0 | diagonalElement_int > option_Int)
-        {
+        if(lowestChoiceIndex_Int == -1)
+        {            
 
-            //Calculating Sum Of [Row i] = How Many Other Rows Can [Row i] Swap With
-
-            rowsChoices_IntList[currentRow_Int]++;
-
-            //eligibility of swapping current row with the row below
+            int unsortedRow_Int = sortedRows_IntList.IndexOf(-1);
             
-            availableRows_IntArray2D[currentRow_Int][previousRow_Int] = 1;
+            int unusedRow_Int = rows_IntList.IndexOf(rows_IntList.Where(row_Int => !sortedRows_IntList.Contains(row_Int) &
+                augmented_StringArray2D[row_Int][unsortedRow_Int] != 0).DefaultIfEmpty(-1).First());
+
+            if(unusedRow_Int==-1)
+            {
+
+                Console.Clear();
+
+                System.Console.WriteLine("something went wrong while sorting!");
+                
+                return;
+                
+            }
             
-        }
+            sortedRows_IntList[unsortedRow_Int] = unusedRow_Int;
 
-    }
+            sortedAugmented_IntArray2D[unsortedRow_Int] = augmented_StringArray2D[unusedRow_Int];
 
-}
-
-//Sum Of [Column i] = How Many Rows Are Dependent On [Row i]
-
-for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
-{
-
-    for(int column_Int = 0; column_Int<arrayLength_Int; column_Int++)
-    {
-
-        if(availableRows_IntArray2D[column_Int][row_Int] == 1)rowsDependencies_IntList[row_Int]++;
-    
-    }
-
-}
-
-Console.Clear();
-
-//showing the results
-for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
-{
-
-    System.Console.Write($"Row {row_Int+1}: ");
-
-    for(int column_Int = 0; column_Int<arrayLength_Int; column_Int++)
-    {
-
-        int chosenNumbers_Int = 0;
-
-        if(availableRows_IntArray2D[row_Int][column_Int] == 1)
-        {
-
-            chosenNumbers_Int = rowsDependencies_IntList[column_Int];
-
-            if(availableRows_IntArray2D[row_Int][column_Int]==1)chosenNumbers_Int--;
-
-        }
-
-        if(augmented_StringArray2D[row_Int][row_Int] == 0 & chosenNumbers_Int!=0)
-        {
+            System.Console.WriteLine($"Uncodnitioned, Sorted Row {unsortedRow_Int+1} = Input Row {unusedRow_Int+1}");
             
-            chosenNumbers_Int = -chosenNumbers_Int;
+            for(int column_Int=0 ; column_Int<arrayLength_Int;column_Int++)
+            {
 
-            availableRows_IntArray2D[row_Int][column_Int] = chosenNumbers_Int;
+                availableRows_IntArray2D[unsortedRow_Int][column_Int] = 0;
 
-            System.Console.Write($"{availableRows_IntArray2D[row_Int][column_Int]} ");
+                availableRows_IntArray2D[column_Int][unusedRow_Int] = 0;
+
+            }
 
         }else
         {
 
-            availableRows_IntArray2D[row_Int][column_Int] = chosenNumbers_Int;
+            int mostIndependentRow_Int = availableRows_IntArray2D[lowestChoiceIndex_Int].ToList().IndexOf(
+                availableRows_IntArray2D[lowestChoiceIndex_Int].ToList().Where(x => x != 0).DefaultIfEmpty().Min());
 
-            System.Console.Write($" {availableRows_IntArray2D[row_Int][column_Int]} ");
+            System.Console.WriteLine($"Sorted Row {lowestChoiceIndex_Int+1} = Input Row {mostIndependentRow_Int+1}");
+
+            sortedAugmented_IntArray2D[lowestChoiceIndex_Int] = augmented_StringArray2D[mostIndependentRow_Int];
+
+            sortedRows_IntList[lowestChoiceIndex_Int] = mostIndependentRow_Int;
+
+            for(int column_Int=0 ; column_Int<arrayLength_Int;column_Int++)
+            {
+
+                rowsChoices_IntList[lowestChoiceIndex_Int] = 0;
+
+                availableRows_IntArray2D[lowestChoiceIndex_Int][column_Int] = 0;
+
+                availableRows_IntArray2D[column_Int][mostIndependentRow_Int] = 0;
+
+            }
 
         }
 
-    }
+        availableRows_IntArray2D = AssessMatrix_Function(availableRows_IntArray2D,out rowsChoices_IntList);
 
-    System.Console.WriteLine($": {rowsChoices_IntList[row_Int]}"); // when soorting, first choose the row that has the most choices,
-    // in those choices, try to select the most independent option so we dont affect other rows (and their choices) if there were
-    //multiple options, select the one with the lesser value
+        for(int index_Int=0;index_Int<arrayLength_Int;index_Int++)System.Console.Write($"S{index_Int+1}=A{sortedRows_IntList[index_Int]+1} ");
 
-}
+        System.Console.WriteLine();
 
-System.Console.WriteLine();
+        System.Console.WriteLine("New Table:");
 
-System.Console.WriteLine();
-
-System.Console.WriteLine();
-
-for(int process_Int = 0; process_Int<arrayLength_Int; process_Int++)
-{    
-
-    int mostIndependentRow_Int;
-
-    int highestChoiceIndex_Int = rowsChoices_IntList.IndexOf(rowsChoices_IntList.Max());
-
-    rowsChoices_IntList[highestChoiceIndex_Int] = 0;
-
-    List<int> temp_IntList = [];
-
-    Predicate<int> negativeCondition_Perdicate = Negative_SubFunction;
-
-    // Predicate<int , bool> negativeCondition_Perdicate2 = Negative_SubFunction2;
-
-    Predicate<int> independentCondition_Perdicate = Independent_SubFunction;    
+        Show_Function(availableRows_IntArray2D,rowsChoices_IntList,true);
     
-    static bool Negative_SubFunction(int element_Int)
-    {
-
-        return element_Int<1;
-
     }
 
-    static bool Independent_SubFunction(int element_Int)
-    {
+    System.Console.WriteLine();
 
-        return element_Int==0;
+    System.Console.WriteLine("Input:");
 
-    }
+    Show_Function(augmented_StringArray2D,rowsChoices_IntList,false);
 
-    static (int ,bool) Negative_SubFunction2(int element_Int)
-    {
+    System.Console.WriteLine("Output:");
 
-        return (element_Int,element_Int == 0);
-
-    }
-
-    for(int column_Int = 0; column_Int<arrayLength_Int;column_Int++)
-    {
-
-        temp_IntList.Add(availableRows_IntArray2D[highestChoiceIndex_Int][column_Int]);
-
-        int element=0;
-
-        bool bool_Bool = false;
-
-        if(temp_IntList[column_Int]==0)
-        {
-
-            temp_IntList[column_Int] = availableRows_IntArray2D[highestChoiceIndex_Int].Max()+1;
-
-        }
-        
-    }
-
-    if(!temp_IntList.TrueForAll(independentCondition_Perdicate))
-    {
-
-        if(temp_IntList.TrueForAll(negativeCondition_Perdicate))
-        {
-            
-            mostIndependentRow_Int = temp_IntList.IndexOf(temp_IntList.Max());
-
-        }else
-        {
-
-            mostIndependentRow_Int = temp_IntList.IndexOf(temp_IntList.Min());
-
-        }
-
-        sortedAugmented_IntArray2D[process_Int] = augmented_StringArray2D[mostIndependentRow_Int];
-
-        for(int row_Int=0 ; row_Int<arrayLength_Int;row_Int++)
-        {
-
-            availableRows_IntArray2D[row_Int][mostIndependentRow_Int] = 0;
-
-        }
-
-    }
-
-    Show_SubFunction(availableRows_IntArray2D,rowsChoices_IntList,arrayLength_Int);
+    Show_Function(sortedAugmented_IntArray2D,rowsChoices_IntList,false);
 
 }
-static void Show_SubFunction(int[][]availableRows_IntArray2D,List<int>rowsChoices_IntList,int arrayLength_Int)
+
+static void Show_Function(int[][]availableRows_IntArray2D,List<int>rowsChoices_IntList,bool showChoicesSum_Bool)
 {
+
+    int arrayLength_Int = availableRows_IntArray2D.Length;
 
     for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
     {
@@ -471,7 +420,9 @@ static void Show_SubFunction(int[][]availableRows_IntArray2D,List<int>rowsChoice
 
         }
 
-        System.Console.WriteLine($": {rowsChoices_IntList[row_Int]}");
+        if(showChoicesSum_Bool)System.Console.Write($": {rowsChoices_IntList[row_Int]}");
+
+        System.Console.WriteLine();
 
     }
 
@@ -480,5 +431,61 @@ static void Show_SubFunction(int[][]availableRows_IntArray2D,List<int>rowsChoice
     System.Console.WriteLine("------------------------------------------------");
 
     System.Console.WriteLine();
+
+}
+
+static int[][] AssessMatrix_Function(int[][] matrix_IntArray2D, out List<int>rowsChoices_IntList)
+{
+
+    int arrayLength_Int = matrix_IntArray2D.Length;
+
+    List<int> independencyRank_IntList = [];
+
+    rowsChoices_IntList = [];
+
+    for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
+    {
+
+        rowsChoices_IntList.Add(0);
+
+        independencyRank_IntList.Add(0);
+
+        for(int column_Int = 0; column_Int<arrayLength_Int; column_Int++)
+        {
+
+            if(matrix_IntArray2D[column_Int][row_Int] != 0)independencyRank_IntList[row_Int]++;
+        
+        }
+
+    }
+
+    for (int row_Int = 0; row_Int < arrayLength_Int; row_Int++)
+    {
+
+        for(int column_Int = 0; column_Int<arrayLength_Int; column_Int++)
+        {
+
+            int chosenNumbers_Int = 0;
+
+            if(matrix_IntArray2D[row_Int][column_Int] != 0)
+            {
+
+                rowsChoices_IntList[row_Int]++;
+
+                chosenNumbers_Int = independencyRank_IntList[column_Int];
+
+                if(matrix_IntArray2D[column_Int][row_Int]!=0)chosenNumbers_Int--;
+
+                if(chosenNumbers_Int == 0)chosenNumbers_Int++;
+
+            }
+
+            matrix_IntArray2D[row_Int][column_Int] = chosenNumbers_Int;
+
+        }
+
+    }
+
+    return matrix_IntArray2D;
 
 }
