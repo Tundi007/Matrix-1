@@ -91,11 +91,8 @@ public class Process
 
     private static int[][] Elimination_Function(int[][]augmented_StringArray2D,int currentColumn_Int)
     {
-
-        int totalRow_Int = augmented_StringArray2D.Length;
-
-
-        for(int currentrow_Int = currentColumn_Int+1; currentrow_Int < totalRow_Int; currentrow_Int++)
+        
+        for(int currentrow_Int = currentColumn_Int+1; currentrow_Int < augmented_StringArray2D.Length; currentrow_Int++)
         {
 
             if(augmented_StringArray2D[currentrow_Int][currentColumn_Int] != 0)
@@ -117,7 +114,7 @@ public class Process
         return[];
 
     }
-    
+
     static int[][] Sort_Function(int[][]augmented_StringArray2D)
     {
         //length of array
