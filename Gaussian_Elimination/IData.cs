@@ -1,5 +1,3 @@
-using System.Runtime.ConstrainedExecution;
-
 namespace Gaussian_Elimination;
 
 public interface IData
@@ -37,9 +35,6 @@ public interface IData
         }
         
     }
-
-    private static void SelectDataInfo_Function()
-    {}
 
     private static int ShowDataInfo_Function()
     {
