@@ -96,7 +96,7 @@ public class Process
         {
 
             if(augmented_StringArray2D[currentrow_Int][currentColumn_Int] != 0)
-            {
+            {a
 
                 int multiplier_Int = augmented_StringArray2D[currentColumn_Int][currentColumn_Int]/augmented_StringArray2D[currentrow_Int][currentColumn_Int];
 
