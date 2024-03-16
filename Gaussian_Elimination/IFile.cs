@@ -101,7 +101,7 @@ public partial interface IFile
 
         return ReadCSV_Function(inputAddress_String);
 
-        // SystemReadCSV_Function(inputAddress_String);
+        // return SystemReadCSV_Function(inputAddress_String);
 
     }
 
@@ -400,14 +400,14 @@ public partial interface IFile
 
     }
 
-    private static string[]?[] SystemReadCSV_Function(string inputAddress_String)
+    private static string[][] SystemReadCSV_Function(string inputAddress_String)
     {
 
         TextFieldParser csvRead_TextFieldParser = new(new StreamReader(""));
 
         int totalRow_Int = 0;
 
-        string[]?[]? readCSV_StringArray2D = [];
+        string[][] readCSV_StringArray2D = [];
 
         try
         {
@@ -431,7 +431,14 @@ public partial interface IFile
             
         }
 
-        readCSV_StringArray2D??=[];
+        if(readCSV_StringArray2D==null)
+        {
+
+            return [[""]];
+
+        }
+
+        readCSV_StringArray2D??=[[""]];
 
         return readCSV_StringArray2D;
 

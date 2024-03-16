@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Gaussian_Elimination
-build_property.ProjectDir = C:\Custom\Software\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\
+build_property.ProjectDir = C:\Custom\Softwares\Git\Project\ALA\01 Matrices\Matrix 1\Gaussian_Elimination\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

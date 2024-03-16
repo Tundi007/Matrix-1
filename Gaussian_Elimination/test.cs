@@ -71,7 +71,7 @@
 //     if(string.IsNullOrWhiteSpace(b)) b = "_";
 
 //     System.Console.WriteLine(b);
-    
+
 // }
 
 // partial class Program
@@ -80,40 +80,99 @@
 //     private static partial Regex MyRegex();
 // }
 
-string[][] a=[];
+// string[][] a=[];
 
-a = [["2"],[],[]];
+// a = [["2"],[],[]];
 
-a[1] = ["2","a"];
+// a[1] = ["2","a"];
 
-a[2] = ["2","wow","z","x","2"];
+// a[2] = ["2","wow","z","x","2"];
 
-a[2][3] = "hi";
+// a[2][3] = "hi";
 
-foreach (string[] b in a)
-{
+// foreach (string[] b in a)
+// {
 
-    foreach (string c in b)
-    {
-        
-        System.Console.WriteLine(c);
-        
-    }
+//     foreach (string c in b)
+//     {
 
-}
+//         System.Console.WriteLine(c);
 
-string[] d = ["changed","woah"];
+//     }
 
-a[2] = d;
+// }
 
-foreach (string[] b in a)
-{
+// string[] d = ["changed","woah"];
 
-    foreach (string c in b)
-    {
-        
-        System.Console.WriteLine(c);
-        
-    }
+// a[2] = d;
 
-}
+// foreach (string[] b in a)
+// {
+
+//     foreach (string c in b)
+//     {
+
+//         System.Console.WriteLine(c);
+
+//     }
+
+// }
+
+// string[][] a =[["3"],["1","2"]];
+
+// foreach (string[] b in a)
+// {
+
+//     foreach (string c in b)
+//     {
+
+//         System.Console.WriteLine(c);
+
+//     }
+
+// }
+
+// System.Console.WriteLine("-----------");
+
+// (a[0],a[1])=(a[1],a[0]);
+
+
+// foreach (string[] b in a)
+// {
+
+//     foreach (string c in b)
+//     {
+
+//         System.Console.WriteLine(c);
+
+//     }
+
+// }
+
+// Action<string> messageTarget;
+
+// string? input = Console.ReadLine();
+
+// input??="";
+
+// if (input.Length > 5) messageTarget = ShowWindowsMessage;
+// else messageTarget = Console.WriteLine;
+
+// messageTarget(input);
+
+// static void ShowWindowsMessage(string message)
+// {
+
+// System.Console.WriteLine(message + " is longer than 5 characters!");
+
+// using System.Security.Cryptography;
+
+// string a = RandomNumberGenerator.GetInt32(65355).ToString();
+
+// string b="";
+
+// if((b=IRead.KeyToLine_Function(a)).Contains(a))
+// {
+//     return;
+
+// }
