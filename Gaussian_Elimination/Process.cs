@@ -40,7 +40,7 @@ public class Process
             for (int variable_Int2 = 0; variable_Int2 < problem_FractionArray2D.Length; variable_Int2++)
             {
 
-                //wtf fix
+                //wtf fix<------------------------------------------------------------------------------------------------------------------------------------------------------------
                 // answers_StringArray2D[variable_Int] = destination_FractionArray2D[variable_Int][variable_Int2]/problem_FractionArray2D[^1][^1];
                 
             }            
