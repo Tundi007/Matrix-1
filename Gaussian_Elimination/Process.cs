@@ -18,25 +18,38 @@ public class Process
 
         if(baseMatrixProblem_FractionArray2D.Length!=baseMatrixProblem_FractionArray2D[0].Length)return;
 
-        Spliter_Function(
+        Solver_Function(
             Elimination_Function(
                 Sort_Function(
                     Merger_Function(
                         baseMatrixProblem_FractionArray2D,
-                            baseMatrixDestination_FractionArray2D))),
-                                    out baseMatrixProblem_FractionArray2D,
-                                        out baseMatrixDestination_FractionArray2D);
-
-        Solver_Function(baseMatrixProblem_FractionArray2D,baseMatrixDestination_FractionArray2D,jordanElimination_Bool);
+                            baseMatrixDestination_FractionArray2D))));
     
     }
 
-    private static void Solver_Function(Fraction[][] problem_FractionArray2D, Fraction[][] destination_FractionArray2D)
+    private static void Solver_Function(Fraction[][] augmentedMatrix_FractionArray2D)
     {
+
+        Spliter_Function(augmentedMatrix_FractionArray2D,out Fraction[][] problem_FractionArray2D,out  Fraction[][] destination_FractionArray2D);
+
+        Fraction[] answers_StringArray2D = new Fraction[destination_FractionArray2D.Length];
+
+        for (int variable_Int = 0; variable_Int < problem_FractionArray2D.Length; variable_Int++)
+        {
+
+            for (int variable_Int2 = 0; variable_Int2 < problem_FractionArray2D.Length; variable_Int2++)
+            {
+
+                //wtf fix
+                // answers_StringArray2D[variable_Int] = destination_FractionArray2D[variable_Int][variable_Int2]/problem_FractionArray2D[^1][^1];
+                
+            }            
+            
+        }
 
     }
 
-    private static void Spliter_Function(Fraction[][] augmentedMatrix_FractionArray2D, out Fraction[][] problem_FractionArray2D, out Fraction[][] destination_FractionArray2D, bool jordanElimination_Bool)
+    private static void Spliter_Function(Fraction[][] augmentedMatrix_FractionArray2D, out Fraction[][] problem_FractionArray2D, out Fraction[][] destination_FractionArray2D)
     {
 
         (problem_FractionArray2D,destination_FractionArray2D) = ([],[]);
@@ -44,39 +57,35 @@ public class Process
         for (int row_Int = 0; row_Int < augmentedMatrix_FractionArray2D.Length; row_Int++)
         {
 
-            problem_FractionArray2D[row_Int] = augmentedMatrix_FractionArray2D[row_Int][..(augmentedMatrix_FractionArray2D.Length-jordanRule_Int-1)];
+            problem_FractionArray2D[row_Int] = augmentedMatrix_FractionArray2D[row_Int][..augmentedMatrix_FractionArray2D.Length];
 
-            destination_FractionArray2D[row_Int] = augmentedMatrix_FractionArray2D[row_Int][0..];
+            destination_FractionArray2D[row_Int] = augmentedMatrix_FractionArray2D[row_Int][augmentedMatrix_FractionArray2D.Length..];
             
         }
 
     }
 
-    private static Fraction[][] Merger_Function(int jordanRule_Int, Fraction[][] problem_FractionArray2D, Fraction[][] destination_FractionArray2D)
+    private static Fraction[][] Merger_Function(Fraction[][] problem_FractionArray2D, Fraction[][] destination_FractionArray2D)
     {
 
         Fraction[][] augmented_FractionArray2D = [];
 
-        int totalRow_Int = problem_FractionArray2D.Length;
-
-        int totalColumn_Int = problem_FractionArray2D[0].Length;
-
-        for(int row_Int = 0; row_Int < totalRow_Int; row_Int++)
+        for(int row_Int = 0; row_Int < problem_FractionArray2D.Length; row_Int++)
         {
 
-            augmented_FractionArray2D[row_Int] = new Fraction[totalColumn_Int+1];
+            augmented_FractionArray2D[row_Int] = new Fraction[problem_FractionArray2D.Length+destination_FractionArray2D.Length];
 
-            for (int column_Int = 0; column_Int < totalColumn_Int; column_Int++)
+            for (int column_Int = 0; column_Int < problem_FractionArray2D.Length; column_Int++)
             {
 
                 augmented_FractionArray2D[row_Int][column_Int] = problem_FractionArray2D[row_Int][column_Int];
                 
             }
 
-            for (int column_Int = 0; column_Int < jordanRule_Int; column_Int++)
+            for (int column_Int = 0; column_Int < destination_FractionArray2D.Length; column_Int++)
             {
 
-                augmented_FractionArray2D[row_Int][totalColumn_Int+column_Int] = destination_FractionArray2D[row_Int][column_Int];
+                augmented_FractionArray2D[row_Int][problem_FractionArray2D.Length+column_Int] = destination_FractionArray2D[row_Int][column_Int];
                 
             }
 

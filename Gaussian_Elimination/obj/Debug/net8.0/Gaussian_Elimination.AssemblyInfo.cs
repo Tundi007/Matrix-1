@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Gaussian_Elimination")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c75a1d01e8cf43a5dd6d0b79b4f289ee8f1275f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+771718042753563cf3a3edc258c0806d13e2b14b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Gaussian_Elimination")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Gaussian_Elimination")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

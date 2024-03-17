@@ -290,3 +290,18 @@
 //     System.Console.WriteLine();
     
 // }
+
+// int[] a = [1,2,3,4,5,6];
+
+// foreach (int b in a[..2])
+// {
+
+//     System.Console.WriteLine(b);
+
+// }
+// foreach (int b in a[2..])
+// {
+
+//     System.Console.WriteLine(b);
+
+// }
