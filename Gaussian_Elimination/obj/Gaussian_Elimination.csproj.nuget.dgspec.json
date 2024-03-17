@@ -43,6 +43,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Fractions": {
+              "target": "Package",
+              "version": "[7.3.0, )"
+            },
             "MathNet.Symbolics": {
               "target": "Package",
               "version": "[0.25.0, )"

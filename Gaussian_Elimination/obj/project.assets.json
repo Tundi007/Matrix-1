@@ -24,6 +24,19 @@
           }
         }
       },
+      "Fractions/7.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/Fractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Fractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "FSharp.Core/8.0.100": {
         "type": "package",
         "compile": {
@@ -154,6 +167,24 @@
         "lib/netstandard2.1/FParsecCS.xml"
       ]
     },
+    "Fractions/7.3.0": {
+      "sha512": "2bETFWLBc8b7Ut2SVi+bxhGVwiSpknHYGBh2PADyGWONLkTxT7bKyDRhF8ao+XUv90tq8Fl7GTPxSI5bacIRJw==",
+      "type": "package",
+      "path": "fractions/7.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Fraction.png",
+        "Readme.md",
+        "fractions.7.3.0.nupkg.sha512",
+        "fractions.nuspec",
+        "lib/netstandard2.0/Fractions.dll",
+        "lib/netstandard2.0/Fractions.xml",
+        "lib/netstandard2.1/Fractions.dll",
+        "lib/netstandard2.1/Fractions.xml",
+        "license.txt"
+      ]
+    },
     "FSharp.Core/8.0.100": {
       "sha512": "ZOVZ/o+jI3ormTZOa28Wh0tSRoyle1f7lKFcUN61sPiXI7eDZu8eSveFybgTeyIEyW0ujjp31cp7GOglDgsNEg==",
       "type": "package",
@@ -259,6 +290,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Fractions >= 7.3.0",
       "MathNet.Symbolics >= 0.25.0"
     ]
   },
@@ -304,6 +336,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Fractions": {
+            "target": "Package",
+            "version": "[7.3.0, )"
+          },
           "MathNet.Symbolics": {
             "target": "Package",
             "version": "[0.25.0, )"

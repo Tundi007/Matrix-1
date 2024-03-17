@@ -176,3 +176,117 @@
 //     return;
 
 // }
+
+// decimal a = (decimal)2/53;
+
+// // System.Console.WriteLine(a);
+
+// using Fractions;
+
+// Fraction b = 4;
+
+// Fraction c = 6;
+
+// Fraction a = b/c*3/2;
+
+// System.Console.WriteLine(a - 1);
+
+// using Fractions;
+
+// Fraction[][] augmented_FractionArray2D = [[2,1,7,42,6],[3,2,8,17,0],[0,3,4,531,4],[1,4,5,3,2]];
+
+// Fraction[][] backup_FractionArray2D = [[2,1,7,42,6],[3,2,8,17,0],[0,3,4,531,4],[1,4,5,3,2]];
+
+// foreach(Fraction[] augmentArray_FractionArray in augmented_FractionArray2D)
+// {
+    
+//     foreach (Fraction element_Fraction in augmentArray_FractionArray)
+//     {
+
+//         System.Console.Write($"{element_Fraction} ");
+        
+//     }
+
+//     System.Console.WriteLine();
+    
+// }
+
+// System.Console.WriteLine();
+// System.Console.WriteLine();
+
+// for(int row_Int = 0; row_Int<augmented_FractionArray2D.Length-1;row_Int++)
+// {   
+
+//     for(int eliminationRow_Int = row_Int+1;eliminationRow_Int<augmented_FractionArray2D.Length;eliminationRow_Int++)
+//     {
+
+//         Fraction diagonalRow_FractionArray = augmented_FractionArray2D[eliminationRow_Int][row_Int]/augmented_FractionArray2D[row_Int][row_Int];
+
+//         for (int column_Int=0; column_Int < augmented_FractionArray2D[eliminationRow_Int].Length;column_Int++)
+//         {
+
+//             augmented_FractionArray2D[eliminationRow_Int][column_Int]-=diagonalRow_FractionArray*augmented_FractionArray2D[row_Int][column_Int];
+            
+//         }
+
+//         System.Console.WriteLine("changes:");
+
+//         foreach(Fraction[] augmentArray_FractionArray in augmented_FractionArray2D)
+//         {
+            
+//             foreach (Fraction element_Fraction in augmentArray_FractionArray)
+//             {
+
+//                 System.Console.Write($"{element_Fraction} ");
+                
+//             }
+
+//             System.Console.WriteLine();
+            
+//         }
+
+//         System.Console.WriteLine("-------------------");
+
+//     }
+
+// }
+
+// System.Console.WriteLine();
+
+// System.Console.WriteLine();
+
+// System.Console.WriteLine("Old Matrix");
+
+// for(int row_Int = 0; row_Int < backup_FractionArray2D.Length;row_Int++)
+// {
+
+//     System.Console.Write($"Row {row_Int}: ");
+    
+//     for(int column_Int = 0; column_Int < backup_FractionArray2D[row_Int].Length;column_Int++)
+//     {
+
+//         System.Console.Write($"{backup_FractionArray2D[row_Int][column_Int]} ");
+        
+//     }
+
+//     System.Console.WriteLine();
+    
+// }
+
+// System.Console.WriteLine("Final Matrix");
+
+// for(int row_Int = 0; row_Int < augmented_FractionArray2D.Length;row_Int++)
+// {
+
+//     System.Console.Write($"Row {row_Int}: ");
+    
+//     for(int column_Int = 0; column_Int < augmented_FractionArray2D[row_Int].Length;column_Int++)
+//     {
+
+//         System.Console.Write($"{augmented_FractionArray2D[row_Int][column_Int]} ");
+        
+//     }
+
+//     System.Console.WriteLine();
+    
+// }
