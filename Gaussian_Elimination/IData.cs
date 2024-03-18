@@ -52,7 +52,7 @@ public interface IData
 
             }
 
-            (int dataIndex_Int,_,_) = IRead.KeyMenu_Function("Choose A Data ID:",dataLinks_String);
+            (int dataIndex_Int,_,_) = IRead.KM_Function("Choose A Data ID:",dataLinks_String);
 
             foreach(string[] selectedData_StringArray2D in publicData_StringList2D[0])
             {

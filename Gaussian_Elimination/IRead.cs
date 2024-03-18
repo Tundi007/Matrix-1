@@ -3,7 +3,21 @@ public interface IRead
 
     //make use of got to in switch cases
 
-    public static string KeyToLine_Function(string exitCode_String)
+    public static string K2L_Function(string exitCode_String)
+    {
+    
+        return KeyToLine_Function(exitCode_String);
+    
+    }
+
+    public static (int,int,string[][]) KM_Function(string menuStatic_String, string[][] menuItems_ArrayString2D)
+    {
+    
+        return KeyMenu_Function(menuStatic_String, menuItems_ArrayString2D);
+    
+    }
+
+    private static string KeyToLine_Function(string exitCode_String)
     {
         
         ConsoleKeyInfo key_ConsoleKeyInfo;
@@ -120,7 +134,7 @@ public interface IRead
 
     }
 
-    public static (int,int,string[][]) KeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString2D)
+    private static (int,int,string[][]) KeyMenu_Function(string menuStatic_String, string[][] menuItems_ArrayString2D)
     {
 
         (int menuPointerRow_Int, int menuPointerColumn_Int,string hint_String,string[][] backup_ArrayString2D) =

@@ -123,7 +123,7 @@ public partial interface IFile
 
             hint_String = "Please Enter A Valid Address:";
 
-            userAddress_String = IRead.KeyToLine_Function(exitCode_String);
+            userAddress_String = IRead.K2L_Function(exitCode_String);
 
             if(userAddress_String == exitCode_String) return;
 
@@ -213,7 +213,7 @@ public partial interface IFile
 
             string exitCode_String = RandomNumberGenerator.GetInt32(65535).ToString();
 
-            string inputLine_String = IRead.KeyToLine_Function(exitCode_String);
+            string inputLine_String = IRead.K2L_Function(exitCode_String);
 
             if(inputLine_String == exitCode_String)
             {
