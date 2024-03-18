@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="Fractions" Version="7.3.0" />
-    <PackageReference Include="MathNet.Symbolics" Version="0.25.0" />
   </ItemGroup>
 
 </Project>

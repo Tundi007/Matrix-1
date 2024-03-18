@@ -199,16 +199,16 @@
 
 // foreach(Fraction[] augmentArray_FractionArray in augmented_FractionArray2D)
 // {
-    
+
 //     foreach (Fraction element_Fraction in augmentArray_FractionArray)
 //     {
 
 //         System.Console.Write($"{element_Fraction} ");
-        
+
 //     }
 
 //     System.Console.WriteLine();
-    
+
 // }
 
 // System.Console.WriteLine();
@@ -226,23 +226,23 @@
 //         {
 
 //             augmented_FractionArray2D[eliminationRow_Int][nextRow_Int]-=diagonalRow_FractionArray*augmented_FractionArray2D[row_Int][nextRow_Int];
-            
+
 //         }
 
 //         System.Console.WriteLine("changes:");
 
 //         foreach(Fraction[] augmentArray_FractionArray in augmented_FractionArray2D)
 //         {
-            
+
 //             foreach (Fraction element_Fraction in augmentArray_FractionArray)
 //             {
 
 //                 System.Console.Write($"{element_Fraction} ");
-                
+
 //             }
 
 //             System.Console.WriteLine();
-            
+
 //         }
 
 //         System.Console.WriteLine("-------------------");
@@ -261,16 +261,16 @@
 // {
 
 //     System.Console.Write($"Row {row_Int}: ");
-    
+
 //     for(int nextRow_Int = 0; nextRow_Int < backup_FractionArray2D[row_Int].Length;nextRow_Int++)
 //     {
 
 //         System.Console.Write($"{backup_FractionArray2D[row_Int][nextRow_Int]} ");
-        
+
 //     }
 
 //     System.Console.WriteLine();
-    
+
 // }
 
 // System.Console.WriteLine("Final Matrix");
@@ -279,16 +279,16 @@
 // {
 
 //     System.Console.Write($"Row {row_Int}: ");
-    
+
 //     for(int nextRow_Int = 0; nextRow_Int < augmented_FractionArray2D[row_Int].Length;nextRow_Int++)
 //     {
 
 //         System.Console.Write($"{augmented_FractionArray2D[row_Int][nextRow_Int]} ");
-        
+
 //     }
 
 //     System.Console.WriteLine();
-    
+
 // }
 
 // int[] a = [1,2,3,4,5,6];
@@ -323,7 +323,7 @@
 //     problem_FractionArray2D[row_Int] = augmentedMatrix_FractionArray2D[row_Int][..augmentedMatrix_FractionArray2D.Length];
 
 //     destination_FractionArray2D[row_Int] = augmentedMatrix_FractionArray2D[row_Int][augmentedMatrix_FractionArray2D.Length..];
-    
+
 // }
 
 // foreach (Fraction[] array in augmentedMatrix_FractionArray2D)
@@ -333,11 +333,11 @@
 //     {
 
 //         System.Console.Write($"{element} ");
-        
+
 //     }
 
 //     System.Console.WriteLine();
-    
+
 // }
 
 // foreach (Fraction[] array in problem_FractionArray2D)
@@ -347,11 +347,11 @@
 //     {
 
 //         System.Console.Write($"{element} ");
-        
+
 //     }
 
 //     System.Console.WriteLine();
-    
+
 // }
 
 // foreach (Fraction[] array in destination_FractionArray2D)
@@ -361,332 +361,165 @@
 //     {
 
 //         System.Console.Write($"{element} ");
-        
+
 //     }
 
 //     System.Console.WriteLine();
+
+// }
+// using Fractions;
+
+// Fraction[][]augmented_FractionArray2D = [[0,0,2,3,1,0,0,0],[0,-1,1,3,0,1,0,0],[1,3,-1,0,0,0,1,0],[1,2,0,0,0,0,0,1]];
+
+// augmented_FractionArray2D = Sort_Function(augmented_FractionArray2D);
+
+// static Fraction[][] Sort_Function(Fraction[][]augmented_FractionArray2D)
+// {    
+
+//     List<int> sorted_IntList = [];
+
+//     for (int count_Int = 0; count_Int < augmented_FractionArray2D.Length; count_Int++)
+//     {
     
+//         sorted_IntList.Add(0);
+        
+//     }
+
+//     int checkContinue = 0;
+
+//     bool check_Bool = true;
+
+//     for (int process_Int = 0; process_Int < augmented_FractionArray2D.Length; process_Int++)
+//     {
+
+//         if(check_Bool)
+//         for (int check_Int = checkContinue; check_Int < augmented_FractionArray2D.Length; check_Int++)
+//         {
+
+//             if(check_Int == augmented_FractionArray2D.Length-1)check_Bool = false;
+
+//             if(augmented_FractionArray2D[check_Int][check_Int]==0)
+//             {
+
+//                 checkContinue = check_Int+1;
+
+//                 int index_Int = check_Int;
+
+//                 bool initialize_Bool = true;
+
+//                 for (int option_Int = 0; option_Int < augmented_FractionArray2D.Length; option_Int++)
+//                 {
+
+//                     if(augmented_FractionArray2D[option_Int][check_Int] != 0 &
+//                             sorted_IntList[option_Int] == 0)
+//                     {
+
+//                         if(!initialize_Bool &
+//                             augmented_FractionArray2D[check_Int][index_Int].Abs() >
+//                                 augmented_FractionArray2D[check_Int][option_Int].Abs())
+//                             index_Int = option_Int;
+//                         else
+//                         {
+
+//                             initialize_Bool = false;
+
+//                             index_Int = option_Int;
+
+//                         }
+                        
+//                     }
+                    
+//                 }
+
+//                 (augmented_FractionArray2D[index_Int], augmented_FractionArray2D[check_Int]) =
+//                         (augmented_FractionArray2D[check_Int], augmented_FractionArray2D[index_Int]);
+
+//                 sorted_IntList[check_Int] = 1;
+
+//                 break;
+            
+//             }
+
+//         }else
+//         {
+
+//             for (int row_Int = 0; row_Int < augmented_FractionArray2D.Length; row_Int++)
+//             {
+
+//                 if(sorted_IntList[row_Int]==0)
+//                 {
+            
+//                     int index_Int = row_Int;
+
+//                     bool initialize_Bool = true;
+                    
+//                     for (int option_Int = 0; option_Int < augmented_FractionArray2D.Length; option_Int++)
+//                     {
+
+//                         if(sorted_IntList[option_Int] == 0 &
+//                             augmented_FractionArray2D[option_Int][row_Int] != 0 &
+//                                 augmented_FractionArray2D[option_Int][row_Int].Abs() <
+//                                     augmented_FractionArray2D[row_Int][row_Int].Abs() &                            
+//                                         augmented_FractionArray2D[row_Int][option_Int] != 0 &
+//                                             augmented_FractionArray2D[row_Int][option_Int].Abs() >
+//                                                 augmented_FractionArray2D[option_Int][row_Int].Abs())
+//                             if(!initialize_Bool &
+//                                 augmented_FractionArray2D[row_Int][index_Int].Abs() >
+//                                     augmented_FractionArray2D[row_Int][option_Int].Abs())
+//                                 index_Int = option_Int;
+//                             else
+//                             {
+
+//                                 initialize_Bool = false;
+
+//                                 index_Int = option_Int;
+
+//                             }
+
+//                     }
+
+//                     if(index_Int == row_Int)break;
+
+//                     (augmented_FractionArray2D[index_Int], augmented_FractionArray2D[row_Int]) =
+//                         (augmented_FractionArray2D[row_Int], augmented_FractionArray2D[index_Int]);
+
+//                     sorted_IntList[row_Int] = 1;
+
+//                     break;
+
+//                 }
+                
+//             }
+
+//         }
+
+//     }
+
+//     return augmented_FractionArray2D;
+
 // }
 
-using Fractions;
-
-Fraction[][]augmented_FractionArray2D = [[0,0,1,0,0],[new Fraction(1,4),new Fraction(1,4),new Fraction(1,4),new Fraction(1,4),new Fraction(1,4)],[0,0,new Fraction(1,2),new Fraction(1,2),1],[1,0,0,0,1]];
-
-foreach (Fraction[] row in augmented_FractionArray2D)
-{
-
-    foreach (Fraction element in row)
-    {
-
-        System.Console.Write($"{element} ");
-        
-    }
-
-    System.Console.WriteLine();
+// static void Show_Function(Fraction[][]augmented_FractionArray2D)
+// {
     
-}
+//     int count_Int = 0;
 
-System.Console.WriteLine("sorting");
+//     foreach (Fraction[] row in augmented_FractionArray2D)
+//     {
 
-augmented_FractionArray2D = Sort_Function(augmented_FractionArray2D);
+//         System.Console.Write($"Row {count_Int+1}: ");
 
-System.Console.WriteLine("sorting done");
+//         count_Int++;
 
-for(int row_Int = 0; row_Int<augmented_FractionArray2D.Length-1;row_Int++)
-{   
+//         foreach (Fraction element in row)
+//         {
 
-    for(int eliminationRow_Int = row_Int+1;eliminationRow_Int<augmented_FractionArray2D.Length;eliminationRow_Int++)
-    {
-
-        Fraction diagonalRow_FractionArray = augmented_FractionArray2D[eliminationRow_Int][row_Int]/augmented_FractionArray2D[row_Int][row_Int];
-
-        for (int nextRow_Int=0; nextRow_Int < augmented_FractionArray2D[eliminationRow_Int].Length;nextRow_Int++)
-        {
-
-            augmented_FractionArray2D[eliminationRow_Int][nextRow_Int] -= diagonalRow_FractionArray*augmented_FractionArray2D[row_Int][nextRow_Int];
+//             System.Console.Write($"{element.ToDecimal()} ");
             
-        }
+//         }
 
-    }
-
-}
-
-foreach (Fraction[] row in augmented_FractionArray2D)
-{
-
-    foreach (Fraction element in row)
-    {
-
-        System.Console.Write($"{element} ");
+//         System.Console.WriteLine();
         
-    }
+//     }
 
-    System.Console.WriteLine();
-    
-}
-
-System.Console.WriteLine();
-
-static Fraction[][] Sort_Function(Fraction[][]augmented_FractionArray2D)
-{    
-
-    int[] sorted_IntArray2D = new int[augmented_FractionArray2D.Length];
-
-    int checkContinue = 0;
-
-    bool check_Bool = true;
-
-    for (int process_Int = 0; process_Int < augmented_FractionArray2D.Length; process_Int++)
-    {       
-
-        if(check_Bool)
-        for (int check_Int = checkContinue; check_Int < augmented_FractionArray2D.Length; check_Int++)
-        {
-
-            if(check_Int == augmented_FractionArray2D.Length-1)check_Bool = false;
-
-            if(augmented_FractionArray2D[check_Int][check_Int]==0)
-            {
-
-                checkContinue = check_Int+1;
-
-                int index_Int = check_Int;
-
-                bool initialize_Bool = true;
-
-                List<Fraction> column_FractionList = [];
-
-                for (int column_Int = 0; column_Int < augmented_FractionArray2D.Length; column_Int++)
-                {
-
-                    column_FractionList.Add(augmented_FractionArray2D[column_Int][check_Int]);
-                    
-                }
-
-                int[] swapTable_FractionArray2D = CheckOptions_Function(column_FractionList, check_Int);
-
-                swapTable_FractionArray2D[check_Int] = 0;
-                
-                for (int option_Int = 0; option_Int < augmented_FractionArray2D.Length; option_Int++)
-                {
-
-                    if(swapTable_FractionArray2D[option_Int]==1)
-                    {
-
-                        if(augmented_FractionArray2D[check_Int][option_Int] == 0)
-                        {
-
-                            swapTable_FractionArray2D[option_Int] = 0;
-                            
-                        }
-
-                    }
-
-                }
-
-                for (int option_Int = 0; option_Int < augmented_FractionArray2D.Length; option_Int++)
-                {
-
-                    if(swapTable_FractionArray2D[option_Int]==1)
-                    {
-
-                        if(initialize_Bool)
-                        {
-
-                            initialize_Bool = false;
-
-                            index_Int = option_Int;
-
-                        }else
-                        if(augmented_FractionArray2D[check_Int][index_Int]>augmented_FractionArray2D[check_Int][option_Int])
-                            index_Int = option_Int;
-                        
-
-                    }
-
-                }
-
-                Fraction[] temp_FractionArray2D = augmented_FractionArray2D[index_Int];
-
-                augmented_FractionArray2D[check_Int] = augmented_FractionArray2D[index_Int];
-
-                augmented_FractionArray2D[index_Int] = temp_FractionArray2D;
-
-                sorted_IntArray2D[check_Int] = 1;
-
-                break;
-            
-            }
-
-        }else
-        {
-
-            for (int row_Int = 0; row_Int < augmented_FractionArray2D.Length; row_Int++)
-            {
-
-                if(sorted_IntArray2D[row_Int]==0)
-                {                   
-            
-                    int index_Int = row_Int;
-
-                    bool initialize_Bool = true;
-
-                    List<Fraction> column_FractionList = [];
-
-                    for (int column_Int = 0; column_Int < augmented_FractionArray2D.Length; column_Int++)
-                    {
-
-                        column_FractionList.Add(augmented_FractionArray2D[column_Int][0]);
-                            
-                    }
-
-                    int[] swapTable_FractionArray2D = CheckOptions_Function(column_FractionList, row_Int);
-
-                    for (int option_Int = 0; option_Int < augmented_FractionArray2D.Length; option_Int++)
-                    {
-
-                        if(swapTable_FractionArray2D[option_Int]==1)
-                        {
-
-                            if(augmented_FractionArray2D[row_Int][option_Int] == 0 | sorted_IntArray2D[option_Int]==1 |
-                                augmented_FractionArray2D[row_Int][option_Int] < augmented_FractionArray2D[option_Int][row_Int])
-                            {
-
-                                swapTable_FractionArray2D[option_Int] = 0;
-                                
-                            }
-
-                        }
-
-                    }
-                    
-                    for (int option_Int = 0; option_Int < augmented_FractionArray2D.Length; option_Int++)
-                    {
-
-                        if(swapTable_FractionArray2D[option_Int]==1)
-                        {
-
-                            if(initialize_Bool)
-                            {
-
-                                initialize_Bool = false;
-
-                                index_Int = option_Int;
-
-                            }else
-                            if(augmented_FractionArray2D[row_Int][index_Int]>augmented_FractionArray2D[row_Int][option_Int])
-                                index_Int = option_Int;
-                            
-
-                        }
-
-                    }
-
-                    if(index_Int!=row_Int)
-                    {
-
-                        Fraction[] temp_FractionArray2D = augmented_FractionArray2D[index_Int];
-
-                        augmented_FractionArray2D[row_Int] = augmented_FractionArray2D[index_Int];
-
-                        augmented_FractionArray2D[index_Int] = temp_FractionArray2D;
-
-                        sorted_IntArray2D[row_Int] = 1;
-
-                    }
-
-                    break;
-
-                }
-                
-            }
-
-        }
-
-    }
-
-    return augmented_FractionArray2D;
-
-}
-
-static int[] CheckOptions_Function(List<Fraction> column_FractionList,int mainElementIndex_Int)
-{
-
-    int[] options_IntArray = new int[column_FractionList.Count];
-
-    for (int column_Int = 0; column_Int < column_FractionList.Count; column_Int++)
-    {
-
-        if(column_FractionList[column_Int]!=0)
-        {
-
-            if(column_FractionList[mainElementIndex_Int]==0 | column_FractionList[mainElementIndex_Int].Abs()>column_FractionList[column_Int].Abs())
-                options_IntArray[column_Int] = 1;
-
-        }
-        
-    }
-
-    options_IntArray[mainElementIndex_Int] = 1;
-
-    return options_IntArray;
-
-}
-
-
-
-
-
-static void Show3_Function(int[]availableRows_IntArray2D)
-{
-
-    int arrayLength_Int = availableRows_IntArray2D.Length;
-
-    foreach(Fraction element in availableRows_IntArray2D)
-    {
-
-        System.Console.Write($"{element} ");
-
-        System.Console.WriteLine();
-        
-    }
-
-}
-
-static void Show2_Function(Fraction[][]availableRows_IntArray2D)
-{
-
-    foreach(Fraction[] row in availableRows_IntArray2D)
-    {
-
-        foreach (Fraction element in row)
-        {
-
-            System.Console.Write($"{element} ");
-            
-        }
-
-        System.Console.WriteLine();
-        
-    }
-
-}
-
-static void Show_Function(int[][]availableRows_IntArray2D)
-{
-
-    foreach (int[] row in availableRows_IntArray2D)
-    {
-
-        foreach (int element in row)
-        {
-
-            System.Console.Write($"{element} ");
-            
-        }
-
-        System.Console.WriteLine();
-        
-    }
-
-}
+// }
